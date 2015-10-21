@@ -10,15 +10,28 @@ targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
+
 }
 
 
 allprojects {
-
+    /**
+     * Global projects dependencies
+     */
     dependencies {
 
     }
 }
+
+project(':blackdump-app')
+        {
+
+        }
+
+project(':blackdump-engine')
+        {
+
+        }
 
 
 
