@@ -1,2 +1,2 @@
-include 'blackdump-engine', 'blackdump-app'
+include 'blackdump-engine', 'blackdump-app', 'blackdump-api'
 

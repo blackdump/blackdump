@@ -1,19 +1,23 @@
 apply plugin: 'java'
-apply plugin: 'application'
+
 apply plugin: 'idea'
 
 //Definizione delle versioni delle librerie
 project.ext {
 
     lombokVersion = '1.16.6'
+    commonsIoVersion = '2.4'
+    log4jVersion = '2.4.1'
+    gsonVersion = '2.4'
 }
+
 
 repositories {
     mavenCentral()
 }
 
 
-mainClassName = ''
+
 
 
 
@@ -30,6 +34,14 @@ allprojects {
     dependencies {
         //Libreria per poter eliminare i noiosi getter/setter
         compile "org.projectlombok:lombok:$lombokVersion"
+        //Libreria di utilita' files
+        compile "commons-io:commons-io:$commonsIoVersion"
+
+        //Logger
+        compile 'log4j:log4j:1.2.17'
+
+        compile "com.google.code.gson:gson:$gsonVersion"
+
 
     }
 }
@@ -40,4 +52,16 @@ project(':blackdump-app')
             dependencies {
                 compile project(':blackdump-engine')
             }
+        }
+
+project(':blackdump-engine')
+        {
+            dependencies {
+                compile project(':blackdump-api')
+            }
+        }
+
+project(':blackdump-api')
+        {
+
         }
