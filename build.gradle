@@ -1,3 +1,7 @@
+/***
+ * Black dump project
+ */
+
 apply plugin: 'java'
 apply plugin: 'application'
 
