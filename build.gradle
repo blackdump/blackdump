@@ -1,20 +1,43 @@
 apply plugin: 'java'
 apply plugin: 'application'
+apply plugin: 'idea'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+//Definizione delle versioni delle librerie
+project.ext {
+
+    lombokVersion = '1.16.6'
+}
 
 repositories {
     mavenCentral()
 }
 
 
+mainClassName = ''
+
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+
+
+
 allprojects {
 
+    apply plugin: 'java'
+
     dependencies {
+        //Libreria per poter eliminare i noiosi getter/setter
+        compile "org.projectlombok:lombok:$lombokVersion"
 
     }
 }
 
 
-
+project(':blackdump-app')
+        {
+            dependencies {
+                compile project(':blackdump-engine')
+            }
+        }
