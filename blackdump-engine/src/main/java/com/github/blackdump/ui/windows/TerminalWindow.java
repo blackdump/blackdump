@@ -10,7 +10,7 @@ import org.fxmisc.richtext.StyleClassedTextArea;
 import java.util.Random;
 
 /**
- * Created by squid on 10/22/15.
+ * Finestra di terminale
  */
 public class TerminalWindow extends BaseWindow {
 
