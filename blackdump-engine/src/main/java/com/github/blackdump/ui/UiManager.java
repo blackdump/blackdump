@@ -11,8 +11,8 @@ import com.github.blackdump.interfaces.windows.IBDWindow;
 import com.github.blackdump.utils.AppInfo;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import jfxtras.labs.scene.control.window.CloseIcon;
@@ -31,7 +31,7 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
     public static int NO_CLOSE = 2;
     private static IBlackdumpEngine engine;
     private static Logger mLogger = Logger.getLogger(UiManager.class);
-    private static Group root;
+    private static AnchorPane root;
     private static Stage primaryStage;
     private Thread mGuiThread;
     private List<IBDWindow> mActiveWindows = new ArrayList<>();
@@ -50,7 +50,8 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
     private void init(Stage primaryStage) {
 
          engine.getConfig();
-         root =  new Group();
+        root = new AnchorPane();
+
 
         primaryStage.setResizable(true);
         primaryStage.setFullScreen(true);
@@ -60,7 +61,7 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
         primaryStage.setTitle(AppInfo.AppName + " v" + AppInfo.AppVersion);
 
 
-        root.setStyle("-fx-background-color: black");
+        root.getStyleClass().add("desktopPane");
 
         createWindow("Login", "/windows/loginWindow.fxml", false, false, false);
 
@@ -74,6 +75,7 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
         {
             Window window = new Window(title);
             window.setTitleBarStyleClass("default-window-titlebar");
+            window.setOpacity(0.9);
 
 
             if (!center) {

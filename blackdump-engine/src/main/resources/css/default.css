@@ -75,6 +75,8 @@
 
 .desktopPane {
     -fx-background-color: black;
+    -fx-background-image: url("../backgrounds/background2.jpg");
+    -fx-background-repeat: repeat;
 }
 
 .default-window-titlebar {
@@ -101,3 +103,5 @@
     -fx-background-color: black;
     -fx-font-size: 12px;
 }
+
+
