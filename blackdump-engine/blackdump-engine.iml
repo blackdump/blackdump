@@ -26,5 +26,18 @@
     <orderEntry type="library" exported="" name="Gradle: org.jfxtras:jfxtras-controls:8.0-r4" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.jfxtras:jfxtras-fxml:8.0-r4" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.jfxtras:jfxtras-common:8.0-r4" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.reflections:reflections:0.9.10" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: com.google.guava:guava:18.0" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.javassist:javassist:3.18.2-GA" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: com.google.code.findbugs:annotations:2.0.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: io.reactivex:rxjava:1.0.14" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.xeustechnologies:jcl-core:2.6" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.objenesis:objenesis:2.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: cglib:cglib-nodep:2.2" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.fxmisc.richtext:richtextfx:0.6.10" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.reactfx:reactfx:2.0-M4u1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.fxmisc.undo:undofx:1.2" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.fxmisc.flowless:flowless:0.4.5" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.fxmisc.wellbehaved:wellbehavedfx:0.1.1" level="project" />
   </component>
 </module>

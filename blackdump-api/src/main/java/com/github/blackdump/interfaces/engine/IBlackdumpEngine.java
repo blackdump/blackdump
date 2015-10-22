@@ -1,5 +1,12 @@
 package com.github.blackdump.interfaces.engine;
 
+import com.github.blackdump.data.BDConfig;
+import com.github.blackdump.interfaces.managers.IBlackdumpManager;
+import com.github.blackdump.interfaces.persistence.IBDDatabaseManager;
+import rx.functions.Action1;
+
+import java.lang.reflect.Type;
+
 /**
  * Interfaccia per esporre l'engine
  */
@@ -20,6 +27,39 @@ public interface IBlackdumpEngine {
      */
     String getRootDirectory();
 
+    BDConfig getConfig();
 
 
+    /**
+     * Aggiunge una nuovo manager
+     * @param manager
+     */
+    void addManager(IBlackdumpManager manager);
+
+    <T> T getManagerByClass(Type type);
+
+
+    /**
+     * Aggiunge una variabile RX/ all'evento
+     * @param varname
+     * @param onNext
+     */
+    void subscribeEvent(String varname, Action1<? super Object> onNext);
+
+
+    /**
+     * Esegue il broadcast dell'evento
+     * @param varname
+     * @param value
+     */
+    void broadcastEvent(String varname, Object value);
+
+
+    IBDDatabaseManager getDatabaseManager();
+
+    /**
+     * Esce dall'applicazione, se e' impostato il force a TRUE, chiude tutto subito
+     * @param force
+     */
+    void quit(boolean force);
 }

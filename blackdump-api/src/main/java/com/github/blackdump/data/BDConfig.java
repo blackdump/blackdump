@@ -9,4 +9,6 @@ import java.io.Serializable;
  */
 @Data
 public class BDConfig implements Serializable {
+
+    private String modsDirectory;
 }

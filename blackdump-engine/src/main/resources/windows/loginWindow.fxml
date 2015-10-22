@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<BorderPane fx:id="bpLogin" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="408.0" prefWidth="714.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.blackdump.ui.windows.LoginWindow">
+   <top>
+      <TextArea fx:id="txtHeader" editable="false" prefHeight="244.0" prefWidth="714.0" styleClass="txtHeader" text="test" BorderPane.alignment="CENTER" />
+   </top>
+   <center>
+      <AnchorPane prefHeight="121.0" prefWidth="714.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane layoutX="199.0" layoutY="10.0" prefHeight="116.0" prefWidth="316.0" styleClass="pnlDefault">
+               <children>
+                  <Label layoutX="16.0" layoutY="6.0" prefHeight="16.0" prefWidth="146.0" styleClass="lblDefault" text="Username:" />
+                  <TextField fx:id="edtUsername" layoutX="14.0" layoutY="25.0" prefHeight="26.0" prefWidth="177.0" styleClass="edtDefault" />
+                  <Label layoutX="13.0" layoutY="50.0" prefHeight="16.0" prefWidth="151.0" styleClass="lblDefault" text="Password:" />
+                  <PasswordField fx:id="edtPassword" layoutX="14.0" layoutY="69.0" prefHeight="26.0" prefWidth="176.0" styleClass="edtDefault" />
+                  <Button fx:id="btnLogin" layoutX="205.0" layoutY="25.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="90.0" styleClass="btnDefault" text="Login" />
+                  <Button fx:id="btnCreatenew" layoutX="205.0" layoutY="69.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="92.0" styleClass="btnDefault" text="Create new" />
+               </children>
+            </Pane>
+            <Text fx:id="lblVersion" layoutX="14.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lblDefault" text="//Version" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

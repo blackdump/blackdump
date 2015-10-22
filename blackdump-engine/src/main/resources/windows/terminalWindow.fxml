@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import org.fxmisc.richtext.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.blackdump.ui.windows.TerminalWindow">
+   <bottom>
+      <TextField fx:id="edtCommand" text="test" BorderPane.alignment="CENTER" />
+   </bottom>
+   <center>
+      <StyleClassedTextArea fx:id="txtConsole" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>
