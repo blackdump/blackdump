@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import org.fxmisc.richtext.*?>
-<?import javafx.scene.layout.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.blackdump.ui.windows.TerminalWindow">
-   <bottom>
-      <TextField fx:id="edtCommand" text="test" BorderPane.alignment="CENTER" />
-   </bottom>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Text?>
+<?import org.fxmisc.richtext.StyleClassedTextArea?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="txtHeader"
+            xmlns="http://javafx.com/javafx/8.0.60" fx:controller="com.github.blackdump.ui.windows.TerminalWindow">
    <center>
       <StyleClassedTextArea fx:id="txtConsole" BorderPane.alignment="CENTER" />
    </center>
+   <bottom>
+      <AnchorPane prefHeight="24.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text layoutY="16.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="66.7294921875"/>
+            <TextField fx:id="edtCommand" layoutX="68.0" layoutY="-2.0" prefHeight="26.0" prefWidth="531.0"
+                       styleClass="input-cmd" text="test"/>
+         </children>
+      </AnchorPane>
+   </bottom>
 </BorderPane>

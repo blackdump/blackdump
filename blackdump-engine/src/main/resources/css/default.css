@@ -85,3 +85,19 @@
     -fx-border-color: #45D40C;
     -fx-alignment: center;
 }
+
+.input-cmd {
+    -fx-border-color: black;
+    -fx-text-fill: #45D40C;
+    -fx-font-family: "Monaco";
+    -fx-background-color: black;
+    -fx-font-size: 12px;
+}
+
+.input-label {
+    -fx-border-color: black;
+    -fx-text-fill: #45D40C;
+    -fx-font-family: "Monaco";
+    -fx-background-color: black;
+    -fx-font-size: 12px;
+}
