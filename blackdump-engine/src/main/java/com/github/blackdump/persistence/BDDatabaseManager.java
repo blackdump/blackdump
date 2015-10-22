@@ -2,10 +2,8 @@ package com.github.blackdump.persistence;
 
 import com.github.blackdump.annotations.ABDManager;
 import com.github.blackdump.base.BaseManager;
-import com.github.blackdump.data.BDConfig;
 import com.github.blackdump.interfaces.persistence.IBDDatabaseManager;
 import com.github.blackdump.serializer.JsonSerializer;
-import lombok.Data;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Level;
 
@@ -66,6 +64,11 @@ public class BDDatabaseManager  extends BaseManager implements IBDDatabaseManage
         {
             log(Level.FATAL, "Error during load database %s => %s", databaseFilename, ex.getMessage());
         }
+    }
+
+    @Override
+    public BDDatabase getDatabase() {
+        return mDatabase;
     }
 
     @Override

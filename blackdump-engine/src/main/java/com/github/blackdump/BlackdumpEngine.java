@@ -5,10 +5,11 @@ import com.github.blackdump.data.BDConfig;
 import com.github.blackdump.eventsqueue.ObservableVariablesManager;
 import com.github.blackdump.interfaces.engine.IBlackdumpEngine;
 import com.github.blackdump.interfaces.managers.IBlackdumpManager;
+import com.github.blackdump.interfaces.managers.IShellManager;
+import com.github.blackdump.interfaces.managers.IUiManager;
 import com.github.blackdump.interfaces.persistence.IBDDatabaseManager;
 import com.github.blackdump.serializer.JsonSerializer;
 import com.github.blackdump.session.SessionManager;
-import com.github.blackdump.ui.UiManager;
 import com.github.blackdump.utils.ReflectionUtils;
 import com.google.common.base.Strings;
 import lombok.Getter;
@@ -45,6 +46,12 @@ public class BlackdumpEngine implements IBlackdumpEngine {
 
     @Getter
     private IBDDatabaseManager databaseManager;
+
+    @Getter
+    private IUiManager uiManager;
+
+    @Getter
+    private IShellManager shellManager;
 
     public BlackdumpEngine() {
         mLogger = Logger.getLogger(getClass());
@@ -201,6 +208,20 @@ public class BlackdumpEngine implements IBlackdumpEngine {
             if (databaseManager == null)
             {
                 log(Level.FATAL, "FATAL ERROR! DatabaseManager is null!");
+                quit(true);
+            }
+
+            uiManager = getManagerByClass(IUiManager.class);
+
+            if (uiManager == null) {
+                log(Level.FATAL, "FATAL ERROR! UiManager is null!");
+                quit(true);
+            }
+
+            shellManager = getManagerByClass(IShellManager.class);
+
+            if (shellManager == null) {
+                log(Level.FATAL, "FATAL ERROR! ShellManager is null!");
                 quit(true);
             }
 

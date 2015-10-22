@@ -39,5 +39,7 @@
     <orderEntry type="library" exported="" name="Gradle: org.fxmisc.undo:undofx:1.2" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.fxmisc.flowless:flowless:0.4.5" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.fxmisc.wellbehaved:wellbehavedfx:0.1.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.controlsfx:controlsfx:8.40.9" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.controlsfx:openjfx-dialogs:1.0.3" level="project" />
   </component>
 </module>

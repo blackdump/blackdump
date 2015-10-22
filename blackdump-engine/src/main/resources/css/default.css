@@ -28,7 +28,10 @@
 
 #txtHeader .content {
     -fx-background-color: black;
+}
 
+#txtHeader .scroll-bar:vertical:disabled {
+    -fx-opacity: 0;
 }
 
 #bpLogin {

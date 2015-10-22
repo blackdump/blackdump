@@ -13,6 +13,7 @@ project.ext {
     rxVersion = '1.0.14'
     jclVersion = '2.6'
     richtextfxVersion = '0.6.10'
+    controlsFxVersion = '8.40.9'
 }
 
 

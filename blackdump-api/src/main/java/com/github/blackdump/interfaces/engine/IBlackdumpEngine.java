@@ -2,6 +2,8 @@ package com.github.blackdump.interfaces.engine;
 
 import com.github.blackdump.data.BDConfig;
 import com.github.blackdump.interfaces.managers.IBlackdumpManager;
+import com.github.blackdump.interfaces.managers.IShellManager;
+import com.github.blackdump.interfaces.managers.IUiManager;
 import com.github.blackdump.interfaces.persistence.IBDDatabaseManager;
 import rx.functions.Action1;
 
@@ -56,6 +58,12 @@ public interface IBlackdumpEngine {
 
 
     IBDDatabaseManager getDatabaseManager();
+
+    IUiManager getUiManager();
+
+    IShellManager getShellManager();
+
+
 
     /**
      * Esce dall'applicazione, se e' impostato il force a TRUE, chiude tutto subito

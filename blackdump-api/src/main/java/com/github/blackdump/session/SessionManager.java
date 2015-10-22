@@ -1,7 +1,7 @@
 package com.github.blackdump.session;
 
 import com.github.blackdump.interfaces.engine.IBlackdumpEngine;
-import lombok.Data;
+import com.github.blackdump.persistence.users.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +14,10 @@ import lombok.Setter;
 public class SessionManager {
     @Getter @Setter
     private static IBlackdumpEngine engine;
+
+    @Getter
+    @Setter
+    private static User currentUser;
 
 
 

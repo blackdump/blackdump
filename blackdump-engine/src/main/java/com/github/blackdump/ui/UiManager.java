@@ -6,17 +6,13 @@ package com.github.blackdump.ui;
 import com.github.blackdump.annotations.ABDManager;
 import com.github.blackdump.interfaces.engine.IBlackdumpEngine;
 import com.github.blackdump.interfaces.managers.IBlackdumpManager;
+import com.github.blackdump.interfaces.managers.IUiManager;
 import com.github.blackdump.interfaces.windows.IBDWindow;
-import com.github.blackdump.ui.windows.TerminalWindow;
 import com.github.blackdump.utils.AppInfo;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import jfxtras.labs.scene.control.window.CloseIcon;
@@ -29,19 +25,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ABDManager
-public class UiManager extends Application implements IBlackdumpManager {
+public class UiManager extends Application implements IBlackdumpManager, IUiManager {
 
     public static int NO_MINIZE = 1;
     public static int NO_CLOSE = 2;
-
-    private Thread mGuiThread;
     private static IBlackdumpEngine engine;
     private static Logger mLogger = Logger.getLogger(UiManager.class);
-
+    private static Group root;
+    private static Stage primaryStage;
+    private Thread mGuiThread;
     private List<IBDWindow> mActiveWindows = new ArrayList<>();
 
-    private Group root;
-    private Stage primaryStage;
+    protected static void log(Level level, String text, Object... args) {
+        mLogger.log(level, String.format(text, args));
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -65,15 +62,12 @@ public class UiManager extends Application implements IBlackdumpManager {
 
         root.setStyle("-fx-background-color: black");
 
-
-
-
-        createWindow("Login", "/windows/loginWindow.fxml",false,false, false);
+        createWindow("Login", "/windows/loginWindow.fxml", false, false, false);
 
 
     }
 
-
+    @Override
     public void createWindow(String title, String fxml, boolean minizeButton, boolean closeButton, boolean center)
     {
         try
@@ -104,11 +98,16 @@ public class UiManager extends Application implements IBlackdumpManager {
 
             try
             {
-                Pane pnl = FXMLLoader.load(getClass().getResource(fxml));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxml));
+
+                Pane pnl = fxmlLoader.load();
                 window.setContentPane(pnl);
+                IBDWindow controller = fxmlLoader.<IBDWindow>getController();
 
-                checkWindowInterface(pnl);
-
+                if (controller != null) {
+                    controller.setEngine(engine);
+                    controller.setParentWindow(window);
+                }
 
                 root.getChildren().add(window);
 
@@ -125,20 +124,6 @@ public class UiManager extends Application implements IBlackdumpManager {
         }
     }
 
-    private void checkWindowInterface(Object obj)
-    {
-        for (Class<?> classz : obj.getClass().getInterfaces())
-        {
-            if (classz == IBDWindow.class)
-            {
-                ((IBDWindow)obj).setEngine(engine);
-                mActiveWindows.add((IBDWindow)obj);
-            }
-        }
-
-    }
-
-
     @Override
     public void start(IBlackdumpEngine engine) {
         this.engine = engine;
@@ -154,11 +139,6 @@ public class UiManager extends Application implements IBlackdumpManager {
     public void ready() {
         mGuiThread = new Thread(() -> launch(new String[] {}));
         mGuiThread.start();
-    }
-
-
-    protected static void log(Level level, String text, Object... args) {
-        mLogger.log(level, String.format(text, args));
     }
 
 }

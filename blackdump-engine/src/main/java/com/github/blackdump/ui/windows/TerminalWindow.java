@@ -1,14 +1,14 @@
 package com.github.blackdump.ui.windows;
 
+import com.github.blackdump.base.BaseWindow;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
 import org.fxmisc.richtext.StyleClassedTextArea;
 
 /**
  * Created by squid on 10/22/15.
  */
-public class TerminalWindow extends Pane {
+public class TerminalWindow extends BaseWindow {
 
     @FXML
     private TextField edtCommand;
@@ -19,10 +19,12 @@ public class TerminalWindow extends Pane {
 
     @FXML
     private void initialize() {
-        edtCommand.setText("CIAO");
+        edtCommand.setText("");
+
+
         edtCommand.setOnAction(event ->
         {
-            txtConsole.appendText(edtCommand.getText() + "\n");
+            getEngine().getShellManager().parse(edtCommand.getText());
             edtCommand.setText("");
         });
     }

@@ -1,5 +1,7 @@
 package com.github.blackdump.interfaces.persistence;
 
+import com.github.blackdump.persistence.BDDatabase;
+
 /**
  * Interfaccia per gestire il database
  */
@@ -11,4 +13,6 @@ public interface IBDDatabaseManager {
     void saveDatabase();
 
     void loadDatabase();
+
+    BDDatabase getDatabase();
 }
