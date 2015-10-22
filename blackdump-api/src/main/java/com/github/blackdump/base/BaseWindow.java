@@ -2,6 +2,7 @@ package com.github.blackdump.base;
 
 import com.github.blackdump.interfaces.engine.IBlackdumpEngine;
 import com.github.blackdump.interfaces.windows.IBDWindow;
+import com.github.blackdump.session.SessionManager;
 import jfxtras.labs.scene.control.window.Window;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -16,7 +17,7 @@ public class BaseWindow implements IBDWindow {
 
     private Logger mLogger;
 
-    @Getter(AccessLevel.PROTECTED)
+
     private IBlackdumpEngine engine;
 
     @Getter(AccessLevel.PROTECTED)
@@ -28,14 +29,21 @@ public class BaseWindow implements IBDWindow {
     }
 
     @Override
-    public void setEngine(IBlackdumpEngine engine) {
-        this.engine = engine;
-    }
-
-    @Override
     public void setParentWindow(Window parentWindow) {
 
         this.parentWindow = parentWindow;
+    }
+
+    protected IBlackdumpEngine getEngine() {
+        if (engine == null)
+            engine = SessionManager.getEngine();
+
+        return engine;
+    }
+
+    @Override
+    public void setEngine(IBlackdumpEngine engine) {
+        this.engine = engine;
     }
 
     protected void log(Level level, String text, Object... args) {
