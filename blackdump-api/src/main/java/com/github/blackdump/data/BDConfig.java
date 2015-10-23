@@ -11,4 +11,6 @@ import java.io.Serializable;
 public class BDConfig implements Serializable {
 
     private String modsDirectory;
+
+    private String defaultTheme = "default.css";
 }

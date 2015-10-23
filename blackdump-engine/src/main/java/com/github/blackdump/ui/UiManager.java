@@ -33,6 +33,7 @@ import org.reflections.util.ClasspathHelper;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,9 +51,9 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
     private static Stage primaryStage;
     private Thread mGuiThread;
 
-    private String mThemesDirectory;
-    private String mCssThemesDirectory;
-    private String mLessThemeDirectory;
+    private static String mThemesDirectory;
+    private static String mCssThemesDirectory;
+    private static String mLessThemeDirectory;
 
     private List<IBDWindow> mActiveWindows = new ArrayList<>();
 
@@ -79,23 +80,30 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
 
 
 
-        root = new AnchorPane();
+        try {
+            root = new AnchorPane();
 
-        scanForWidgets();
+            scanForWidgets();
 
-        primaryStage.setResizable(true);
-        primaryStage.setFullScreen(true);
-        primaryStage.setScene(new Scene(root, 600, 500));
+            primaryStage.setResizable(true);
+            primaryStage.setFullScreen(true);
+            primaryStage.setScene(new Scene(root, 600, 500));
 
-        primaryStage.getScene().getStylesheets().add("/css/default.css");
-        primaryStage.setTitle(AppInfo.AppName + " v" + AppInfo.AppVersion);
-        primaryStage.setOnCloseRequest(event -> engine.quit(false));
+            File mTheme = new File(mCssThemesDirectory + engine.getConfig().getDefaultTheme());
+            primaryStage.getScene().getStylesheets().add("file:///" + mTheme.getAbsolutePath().replace("\\", "/"));
+            primaryStage.setTitle(AppInfo.AppName + " v" + AppInfo.AppVersion);
+            primaryStage.setOnCloseRequest(event -> engine.quit(false));
 
 
-        root.getStyleClass().add("desktopPane");
+            root.getStyleClass().add("desktopPane");
 
-        createWindow("Login", "/windows/loginWindow.fxml", false, false, false);
+            createWindow("Login", "/windows/loginWindow.fxml", false, false, false);
 
+        }
+        catch (Exception ex)
+        {
+
+        }
 
     }
 
