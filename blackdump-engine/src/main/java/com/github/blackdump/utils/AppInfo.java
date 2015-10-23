@@ -5,6 +5,8 @@ package com.github.blackdump.utils;
  */
 public class AppInfo {
 
+    public static boolean DEBUG = true;
+
     public static String AppName = "8l4ckDump";
     public static String AppVersion = "0.1-Alpha";
 

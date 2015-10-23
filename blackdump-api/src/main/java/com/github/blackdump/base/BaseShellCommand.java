@@ -2,6 +2,7 @@ package com.github.blackdump.base;
 
 import com.github.blackdump.annotations.ABDShellCommand;
 import com.github.blackdump.interfaces.engine.IBlackdumpEngine;
+import com.github.blackdump.interfaces.managers.IShellManager;
 import com.github.blackdump.shell.IShellCommand;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -23,6 +24,9 @@ public class BaseShellCommand implements IShellCommand {
 
     @Getter(AccessLevel.PROTECTED)
     private IBlackdumpEngine engine;
+
+    @Getter(AccessLevel.PROTECTED)
+    private IShellManager shellManager;
 
     public BaseShellCommand() {
         mLogger = Logger.getLogger(getClass());
@@ -64,11 +68,27 @@ public class BaseShellCommand implements IShellCommand {
     }
 
     @Override
+    public void setShellManager(IShellManager shellManager) {
+        this.shellManager = shellManager;
+    }
+
+    @Override
     public Object invoke(String[] args) {
         return null;
     }
 
     protected void log(Level level, String text, Object... args) {
         mLogger.log(level, String.format(text, args));
+    }
+
+    protected String transformToRawString(String[] args)
+    {
+        String out = "";
+        for (int i =0;i<args.length;i++)
+        {
+            out += args[i];
+        }
+
+        return out;
     }
 }

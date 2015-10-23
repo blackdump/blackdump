@@ -6,7 +6,9 @@ import com.github.blackdump.base.BaseManager;
 import com.github.blackdump.interfaces.engine.IBlackdumpEngine;
 import com.github.blackdump.interfaces.managers.IShellManager;
 import com.github.blackdump.interfaces.shell.IShellCommandResult;
+import com.github.blackdump.session.SessionManager;
 import com.github.blackdump.utils.ReflectionUtils;
+import com.google.common.base.Strings;
 import org.apache.log4j.Level;
 
 import java.util.ArrayList;
@@ -25,6 +27,8 @@ public class ShellManager extends BaseManager implements IShellManager {
     private HashMap<String, IShellCommand> mInstalledCommands = new HashMap<>();
 
     private HashMap<String, List<IShellCommandResult>> mListeners = new HashMap<>();
+
+    private HashMap<String, String> mPrompts = new HashMap<>();
 
 
     @Override
@@ -52,6 +56,7 @@ public class ShellManager extends BaseManager implements IShellManager {
         try {
             IShellCommand cmd = (IShellCommand) classCommand.newInstance();
             cmd.setEngine(getEngine());
+            cmd.setShellManager(this);
             mAvailableCommands.put(cmd.getCommands(), cmd);
 
             if (cmd.getIsLoadAtStartup()) {
@@ -105,12 +110,32 @@ public class ShellManager extends BaseManager implements IShellManager {
         if (mListeners.get(terminal) == null)
             mListeners.put(terminal, new ArrayList<>());
 
+        if (mPrompts.get(terminal) == null)
+        {
+            mPrompts.put(terminal, String.format("[%s %s]#", SessionManager.getCurrentUser().getEmail(), "~"));
+        }
+
         mListeners.get(terminal).add(result);
     }
 
     public void removeShellCommandResult(String terminal, IShellCommandResult result) {
         if (mListeners.get(terminal) == null)
             mListeners.get(terminal).remove(result);
+    }
+
+    @Override
+    public HashMap<String, IShellCommand> getAvaiableCommands() {
+        return mAvailableCommands;
+    }
+
+    @Override
+    public HashMap<String, IShellCommand> getInstalledCommands() {
+        return mInstalledCommands;
+    }
+
+    @Override
+    public String getPrompt(String terminal) {
+        return mPrompts.get(terminal);
     }
 
     private void notifyCommandResult(String terminal, IShellCommand shellExecuter, String cmd, String[] args, Object result) {

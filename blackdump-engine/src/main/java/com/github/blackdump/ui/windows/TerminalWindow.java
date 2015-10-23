@@ -3,7 +3,9 @@ package com.github.blackdump.ui.windows;
 import com.github.blackdump.base.BaseWindow;
 import com.github.blackdump.interfaces.shell.IShellCommandResult;
 import com.github.blackdump.shell.IShellCommand;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.fxmisc.richtext.StyleClassedTextArea;
 
@@ -18,6 +20,9 @@ public class TerminalWindow extends BaseWindow {
     private TextField edtCommand;
 
     @FXML
+    private Label lblPrompt;
+
+    @FXML
     private StyleClassedTextArea txtConsole;
 
     private String terminal = "terminal " + new Random().nextInt(300);
@@ -29,20 +34,79 @@ public class TerminalWindow extends BaseWindow {
         getEngine().getShellManager().addShellCommandResult(terminal, new IShellCommandResult() {
             @Override
             public void onCommandResult(IShellCommand shellExecuter, String cmd, String[] args, Object result) {
-                txtConsole.appendText((String) result + "\n");
+                parseString((String) result + "\n");
                 edtCommand.setText("");
-
             }
 
             @Override
             public void onCommandNotFound(String cmd, String[] args) {
-                txtConsole.appendText(String.format("Command '%s' not found!\n", cmd));
+                parseString(String.format("sqshell: command not found: %s\n", cmd));
+                edtCommand.setText("");
             }
         });
+
+        updatePromptLabel();
+        getEngine().getShellManager().parse(terminal, "header");
+
+
+
         edtCommand.setOnAction(event ->
         {
             getEngine().getShellManager().parse(terminal, edtCommand.getText());
+        });
+    }
 
+    private void updatePromptLabel()
+    {
+        String text = getEngine().getShellManager().getPrompt(terminal);
+        Platform.runLater(() -> {
+
+            lblPrompt.setText(text);
+        });
+    }
+
+    private void parseString(final String text)
+    {
+
+        Platform.runLater(() -> {
+
+            int max_position = txtConsole.getLength();
+
+            if (text.contains("[#"))
+            {
+                String[] lines = text.split("\n");
+
+                for (String line : lines)
+                {
+                    int tokenIdx = line.indexOf("[#");
+                    int tokenEnd = -1;
+
+                    if (tokenIdx != -1)
+                    {
+                        tokenEnd = line.indexOf("]", tokenIdx);
+
+                        String token = line.substring(tokenIdx, tokenEnd+1);
+
+                        line = line.replace(token, "");
+                        line += "\n";
+                        token = token.replace("[#","").replace("]","").toLowerCase();
+                        txtConsole.appendText(line);
+                        txtConsole.setStyleClass(max_position, max_position + line.length(), "shell-output-text-"+token);
+                        max_position += line.length();
+                    }
+                    else
+                    {
+                        txtConsole.appendText(line +"\n");
+                        txtConsole.setStyleClass(max_position, max_position + line.length(), "shell-output-text-default");
+                        max_position += line.length();
+                    }
+                }
+            }
+            else
+            {
+                txtConsole.appendText(text);
+                txtConsole.setStyleClass(max_position, max_position + text.length(), "shell-output-text-default");
+            }
         });
     }
 

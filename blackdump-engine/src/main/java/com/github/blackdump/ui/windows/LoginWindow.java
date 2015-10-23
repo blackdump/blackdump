@@ -92,24 +92,30 @@ public class LoginWindow extends BaseWindow {
         });
 
 
+        if (!AppInfo.DEBUG)
 
-        try {
-            Media sound = new Media(getClass().getResource("/sounds/56k_dialup2.wav").toURI().toString());
-
-            MediaPlayer mediaPlayer = new MediaPlayer(sound);
-            mediaPlayer.setOnReady(() -> {
-                m56KLenght = sound.getDuration().toMillis();
-                mediaPlayer.play();
-
-                startDotThread();
-                startLoginThread();
-            });
-
-
-        }
-        catch (Exception ex)
         {
-            ex.printStackTrace();
+            try {
+                Media sound = new Media(getClass().getResource("/sounds/56k_dialup2.wav").toURI().toString());
+
+                MediaPlayer mediaPlayer = new MediaPlayer(sound);
+                mediaPlayer.setOnReady(() -> {
+                    m56KLenght = sound.getDuration().toMillis();
+                    mediaPlayer.play();
+
+                    startDotThread();
+                    startLoginThread();
+                });
+
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        else {
+            m56KLenght = 1000;
+            startDotThread();
+            startLoginThread();
         }
 
 
@@ -191,6 +197,7 @@ public class LoginWindow extends BaseWindow {
             SessionManager.setCurrentUser(mUser.get());
             getEngine().getUiManager().createWindow(String.format("%s:", SessionManager.getCurrentUser().getEmail()), "/windows/terminalWindow.fxml", true, true, true);
             getParentWindow().close();
+            getEngine().getUiManager().notifyAfterLogin();
 
         }
     }

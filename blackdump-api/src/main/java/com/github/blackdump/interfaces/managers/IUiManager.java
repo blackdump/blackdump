@@ -16,4 +16,14 @@ public interface IUiManager {
      */
     void createWindow(String title, String fxml, boolean minizeButton, boolean closeButton, boolean center);
 
+
+    /**
+     * Crea un nuovo widget
+     * @param fxml
+     */
+    void createWidget(String fxml);
+
+
+    void notifyAfterLogin();
+
 }
