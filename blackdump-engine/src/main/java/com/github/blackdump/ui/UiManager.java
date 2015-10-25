@@ -122,7 +122,7 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
 
     private void showNotification(Object o) {
         Platform.runLater(() -> {
-            Notifications.create().darkStyle().title(AppInfo.AppName).text((String) o).showInformation();
+            Notifications.create().title(AppInfo.AppName).text((String) o).showInformation();
         });
 
     }
@@ -421,20 +421,23 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
 
             for (String file : files)
             {
-                log(Level.INFO, "Compiling %s LESS ....", file);
-                String destFile = file.split("/")[file.split("/").length -1].replace(".less", ".css");
+                try {
+                    log(Level.INFO, "Compiling %s LESS ....", file);
+                    String destFile = file.split("/")[file.split("/").length - 1].replace(".less", ".css");
 
-                URL compiledCss =  mLessCompiler.loadLess(getClass().getResource("/"+file));
-                log(Level.INFO, "Compiled %s LESS!", file);
+                    URL compiledCss = mLessCompiler.loadLess(getClass().getResource("/" + file));
+                    log(Level.INFO, "Compiled %s LESS!", file);
 
-                String css = FileUtils.readFileToString(new File(compiledCss.toURI()));
+                    String css = FileUtils.readFileToString(new File(compiledCss.toURI()));
 
-                FileUtils.writeStringToFile(new File(mCssThemesDirectory + destFile), css );
+                    FileUtils.writeStringToFile(new File(mCssThemesDirectory + destFile), css);
 
-                log(Level.INFO, "Coping to %s", mCssThemesDirectory + destFile);
+                    log(Level.INFO, "Coping to %s", mCssThemesDirectory + destFile);
 
-                mAvaiableThemes.add(destFile);
-
+                    mAvaiableThemes.add(destFile);
+                } catch (Exception ex) {
+                    log(Level.FATAL, "Error during compile %s => %s", file, ex.getMessage());
+                }
             }
 
         }

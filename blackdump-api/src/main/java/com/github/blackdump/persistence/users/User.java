@@ -24,6 +24,10 @@ public class User implements Serializable {
 
     private Date lastLoginDate;
 
+    private UserDetails userDetails = new UserDetails();
+
+
+
 
     /**
      * Restituisce un nuovo utente
