@@ -2,7 +2,7 @@ package com.github.blackdump;
 
 import com.github.blackdump.annotations.ABDManager;
 import com.github.blackdump.data.BDConfig;
-import com.github.blackdump.eventsqueue.ObservableVariablesManager;
+import com.github.blackdump.eventbus.ObservableVariablesManager;
 import com.github.blackdump.interfaces.engine.IBlackdumpEngine;
 import com.github.blackdump.interfaces.managers.IBlackdumpManager;
 import com.github.blackdump.interfaces.managers.IShellManager;

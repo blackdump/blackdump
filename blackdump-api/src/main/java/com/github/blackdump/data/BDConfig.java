@@ -13,4 +13,6 @@ public class BDConfig implements Serializable {
     private String modsDirectory;
 
     private String defaultTheme = "default.css";
+
+    private String defaultBackground = "background2.jpg";
 }

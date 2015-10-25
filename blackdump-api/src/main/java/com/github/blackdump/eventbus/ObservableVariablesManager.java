@@ -1,4 +1,4 @@
-package com.github.blackdump.eventsqueue;
+package com.github.blackdump.eventbus;
 
 import rx.functions.Action1;
 import rx.subjects.PublishSubject;

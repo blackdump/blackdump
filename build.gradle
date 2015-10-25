@@ -1,10 +1,8 @@
 apply plugin: 'java'
-
 apply plugin: 'idea'
 
 //Definizione delle versioni delle librerie
 project.ext {
-
     lombokVersion = '1.16.6'
     commonsIoVersion = '2.4'
     log4jVersion = '2.4.1'
@@ -14,6 +12,7 @@ project.ext {
     jclVersion = '2.6'
     richtextfxVersion = '0.6.10'
     controlsFxVersion = '8.40.9'
+    webSocketClientVersion = '1.1'
 }
 
 
@@ -21,15 +20,8 @@ repositories {
     mavenCentral()
 }
 
-
-
-
-
-
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-
-
 
 
 allprojects {
@@ -64,12 +56,27 @@ project(':blackdump-engine')
             dependencies {
                 compile project(':blackdump-api')
                 compile  "org.fxmisc.richtext:richtextfx:$richtextfxVersion"
-
-
             }
         }
 
 project(':blackdump-api')
         {
 
+        }
+
+project(':blackdump-network')
+        {
+            dependencies {
+                compile project(':blackdump-api')
+                compile "javax.websocket:javax.websocket-client-api:$webSocketClientVersion"
+                compile "javax.websocket:javax.websocket-api:$webSocketClientVersion"
+            }
+        }
+
+project(':blackdump-server')
+        {
+            dependencies {
+                compile project(':blackdump-api')
+                compile project(':blackdump-network')
+            }
         }

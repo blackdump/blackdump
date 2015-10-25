@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,5 +31,9 @@ public class FuncsUtility {
             }
         }
         return result;
+    }
+
+    public static String getCurrentDateTime() {
+        return LocalDateTime.now().minusYears(20).format(DateTimeFormatter.ofPattern("dd/mm/YYYY HH:mm:ss "));
     }
 }

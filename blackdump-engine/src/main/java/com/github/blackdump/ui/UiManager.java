@@ -5,18 +5,25 @@ package com.github.blackdump.ui;
 
 import com.github.blackdump.annotations.ABDDesktopWidget;
 import com.github.blackdump.annotations.ABDManager;
+import com.github.blackdump.annotations.ABDMenuItem;
+import com.github.blackdump.annotations.ABDPopmenuEntry;
+import com.github.blackdump.eventbus.EventBusMessages;
+import com.github.blackdump.eventbus.ObservableVariablesManager;
 import com.github.blackdump.interfaces.engine.IBlackdumpEngine;
 import com.github.blackdump.interfaces.managers.IBlackdumpManager;
 import com.github.blackdump.interfaces.managers.IUiManager;
 import com.github.blackdump.interfaces.windows.IBDDesktopWidget;
 import com.github.blackdump.interfaces.windows.IBDWindow;
+import com.github.blackdump.interfaces.windows.IWindowListener;
 import com.github.blackdump.ui.windows.less.at.bestsolution.efxclipse.less.LessCSSLoader;
 import com.github.blackdump.utils.AppInfo;
-import com.github.blackdump.utils.FuncsUtility;
 import com.github.blackdump.utils.ReflectionUtils;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -26,17 +33,16 @@ import jfxtras.labs.scene.control.window.Window;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.controlsfx.control.Notifications;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
 import org.reflections.util.ClasspathHelper;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.net.URL;
-import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -49,20 +55,17 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
     private static Logger mLogger = Logger.getLogger(UiManager.class);
     private static AnchorPane root;
     private static Stage primaryStage;
-    private Thread mGuiThread;
-
     private static String mThemesDirectory;
     private static String mCssThemesDirectory;
     private static String mLessThemeDirectory;
-
-    private List<IBDWindow> mActiveWindows = new ArrayList<>();
-
-    private LessCSSLoader mLessCompiler;
-
+    private static ContextMenu mPopupMenu;
     private static List<String> mAvaiableThemes= new ArrayList<>();
-
-
     private static List<ABDDesktopWidget> mWidgets = new ArrayList<>();
+    private static List<ABDMenuItem> mMenuItems = new ArrayList<>();
+    private Thread mGuiThread;
+    private List<IBDWindow> mActiveWindows = new ArrayList<>();
+    private List<IWindowListener> mListeners = new ArrayList<>();
+    private LessCSSLoader mLessCompiler;
 
     protected static void log(Level level, String text, Object... args) {
         mLogger.log(level, String.format(text, args));
@@ -77,13 +80,18 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
 
     private void init(Stage primaryStage) {
 
-
-
-
         try {
             root = new AnchorPane();
 
+            root.setOnContextMenuRequested(event1 -> {
+
+                mPopupMenu.show(root, event1.getX(), event1.getY());
+
+
+            });
             scanForWidgets();
+            scanForMenuItems();
+            scanForPopupItems();
 
             primaryStage.setResizable(true);
             primaryStage.setFullScreen(true);
@@ -92,12 +100,17 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
             File mTheme = new File(mCssThemesDirectory + engine.getConfig().getDefaultTheme());
             primaryStage.getScene().getStylesheets().add("file:///" + mTheme.getAbsolutePath().replace("\\", "/"));
             primaryStage.setTitle(AppInfo.AppName + " v" + AppInfo.AppVersion);
-            primaryStage.setOnCloseRequest(event -> engine.quit(false));
+            primaryStage.setOnCloseRequest(event -> engine.quit(true));
 
 
             root.getStyleClass().add("desktopPane");
+            String backgroundStr = String.format("-fx-background-image: url('%s')", new File(mThemesDirectory + "backgrounds" + File.separator + engine.getConfig().getDefaultBackground()).toURI());
 
-            createWindow("Login", "/windows/loginWindow.fxml", false, false, false);
+            root.setStyle(backgroundStr);
+
+            ObservableVariablesManager.subscribe(EventBusMessages.NOTIFICATION_SHOW_MESSAGE, this::showNotification);
+
+            createWindow("Login", "/windows/loginWindow.fxml", false, false, true);
 
         }
         catch (Exception ex)
@@ -106,6 +119,70 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
         }
 
     }
+
+    private void showNotification(Object o) {
+        Platform.runLater(() -> {
+            Notifications.create().darkStyle().title(AppInfo.AppName).text((String) o).showInformation();
+        });
+
+    }
+
+    private void scanForPopupItems() {
+        try {
+            mPopupMenu = new ContextMenu();
+
+            log(Level.INFO, "Start scanning Popupmenu annotation");
+
+            Set<Class<?>> classes = ReflectionUtils.getAnnotation(ABDPopmenuEntry.class);
+
+            log(Level.INFO, "Found %s Popupmenu annotation", classes.size());
+
+            List<ABDPopmenuEntry> popmenuEntries = new ArrayList<>();
+
+            for (Class<?> classz : classes) {
+                ABDPopmenuEntry annotation = classz.getAnnotation(ABDPopmenuEntry.class);
+
+                log(Level.INFO, "Adding %s to popupMenu", classz.getSimpleName());
+
+                popmenuEntries.add(annotation);
+
+            }
+
+            popmenuEntries = popmenuEntries.stream().sorted((o1, o2) -> Integer.compare(o1.order(), o2.order())).collect(Collectors.toList());
+
+            for (ABDPopmenuEntry menuItem : popmenuEntries) {
+                MenuItem mi = new MenuItem(menuItem.text());
+                mi.setOnAction(event -> createWindow(menuItem.text(), menuItem.fxml(), true, true, true));
+
+                mPopupMenu.getItems().add(mi);
+            }
+
+            log(Level.INFO, "Popup menu build");
+
+
+        } catch (Exception ex) {
+            log(Level.FATAL, "Error during scanning popupMenu annotation => %s", ex.getMessage());
+        }
+    }
+
+    @Override
+    public void addWindowListener(IWindowListener listener) {
+
+        mListeners.add(listener);
+    }
+
+    private void notifyAddWindowListeners(IBDWindow window) {
+        for (int i = 0; i < mListeners.size(); i++) {
+            mListeners.get(i).onWindowCreated(window);
+        }
+    }
+
+    private void notifyCloseWindowListeners(IBDWindow window) {
+        for (int i = 0; i < mListeners.size(); i++) {
+            mListeners.get(i).onWindowClosed(window);
+        }
+    }
+
 
     @Override
     public void notifyAfterLogin() {
@@ -117,7 +194,12 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
         for (ABDDesktopWidget annotation : mWidgets.stream().filter( s -> s.loadAfterLogin() == true).collect(Collectors.toList()))
         {
             createWidget(annotation.fxmlFilename());
+        }
 
+        List<ABDMenuItem> afterLoginMenuItems = mMenuItems.stream().filter(s -> s.isInstalled()).collect(Collectors.toList());
+
+        for (IWindowListener listener : mListeners) {
+            listener.onBuildMenuTree(afterLoginMenuItems);
         }
     }
 
@@ -144,9 +226,28 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
         }
         catch (Exception ex)
         {
-            log(Level.FATAL, "Error during scanning widgets...");
+            log(Level.FATAL, "Error during scanning widgets => %s", ex.getMessage());
         }
 
+    }
+
+    private void scanForMenuItems() {
+        try {
+            log(Level.INFO, "Scanning for menuItems");
+            Set<Class<?>> classes = ReflectionUtils.getAnnotation(ABDMenuItem.class);
+            log(Level.INFO, "Found %s desktop menuItems", classes.size());
+
+            for (Class<?> classz : classes) {
+                ABDMenuItem annotation = classz.getAnnotation(ABDMenuItem.class);
+
+                mMenuItems.add(annotation);
+            }
+
+            log(Level.INFO, "Building menuItems completed", classes.size());
+
+        } catch (Exception ex) {
+            log(Level.FATAL, "Error during scanning MenuItems => %s", ex.getMessage());
+        }
     }
 
     public void createWidget(String fxml)
@@ -187,14 +288,9 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
 
 
             if (!center) {
+
                 window.setLayoutX(10);
                 window.setLayoutY(10);
-            }
-            else
-            {
-                ;
-              //  window.setLayoutX(primaryStage.getX() + primaryStage.getWidth() / 2 - primaryStage.getWidth() / 2);
-              //  window.setLayoutY(primaryStage.getY() + primaryStage.getHeight() / 2 - primaryStage.getHeight() / 2);
             }
             window.setPrefSize(300, 200);
 
@@ -211,15 +307,29 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxml));
 
                 Pane pnl = fxmlLoader.load();
+
+                if (center) {
+                    window.setLayoutX(root.getWidth() / 2 + pnl.getWidth() / 2);
+                    window.setLayoutY(root.getHeight() / 2 + pnl.getHeight() / 2);
+                }
                 window.setContentPane(pnl);
                 IBDWindow controller = fxmlLoader.<IBDWindow>getController();
 
                 if (controller != null) {
                     controller.setEngine(engine);
                     controller.setParentWindow(window);
+                    controller.setWindowUid(new Random().nextInt());
+
+                    notifyAddWindowListeners(controller);
                 }
 
+                window.setOnCloseAction(event -> {
+
+                    notifyCloseWindowListeners(controller);
+                });
+
                 root.getChildren().add(window);
+
 
             }
             catch (Exception ex)
@@ -242,11 +352,12 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
 
     @Override
     public void dispose() {
-
+        Platform.exit();
     }
 
     @Override
     public void ready() {
+
 
         initLessCompiler();
 
@@ -291,7 +402,7 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
 
 
             scanAndCompileLess();
-            checkInternalFonts();
+            checkInternalFontsAndBackground();
 
         }
         catch (Exception ex)
@@ -333,7 +444,7 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
         }
     }
 
-    private void checkInternalFonts()
+    private void checkInternalFontsAndBackground()
     {
         try
         {
@@ -351,6 +462,23 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
                     String destFile = file.split("/")[file.split("/").length -1];
 
                     FileUtils.copyInputStreamToFile(getClass().getResource("/" + file).openStream(), new File(mCssThemesDirectory + "fonts" + File.separator + destFile));
+
+
+                    log(Level.INFO, "File %s copied", destFile);
+                }
+
+            }
+
+            if (!new File(mThemesDirectory + File.separator + "backgrounds").exists()) {
+                log(Level.INFO, "Creating backgrounds directory and copy internal backgrounds");
+                new File(mThemesDirectory + File.separator + "backgrounds").mkdirs();
+
+                files = new Reflections(ClasspathHelper.forClass(getClass()), new ResourcesScanner()).getResources(Pattern.compile(".*\\.jpg"));
+
+                for (String file : files) {
+                    String destFile = file.split("/")[file.split("/").length - 1];
+
+                    FileUtils.copyInputStreamToFile(getClass().getResource("/" + file).openStream(), new File(mThemesDirectory + "backgrounds" + File.separator + destFile));
 
 
                     log(Level.INFO, "File %s copied", destFile);

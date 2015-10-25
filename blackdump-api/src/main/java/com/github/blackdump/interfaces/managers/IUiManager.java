@@ -1,5 +1,7 @@
 package com.github.blackdump.interfaces.managers;
 
+import com.github.blackdump.interfaces.windows.IWindowListener;
+
 /**
  * Interfaccia per il creatore della UI
  */
@@ -25,5 +27,7 @@ public interface IUiManager {
 
 
     void notifyAfterLogin();
+
+    void addWindowListener(IWindowListener listener);
 
 }

@@ -1,5 +1,8 @@
 package com.github.blackdump.ui.windows;
 
+import com.github.blackdump.annotations.ABDMenuItem;
+import com.github.blackdump.annotations.ABDPopmenuEntry;
+import com.github.blackdump.annotations.WindowType;
 import com.github.blackdump.base.BaseWindow;
 import com.github.blackdump.interfaces.shell.IShellCommandResult;
 import com.github.blackdump.shell.IShellCommand;
@@ -14,6 +17,8 @@ import java.util.Random;
 /**
  * Finestra di terminale
  */
+@ABDMenuItem(name = "Terminal", fxml = "/windows/terminalWindow.fxml", type = WindowType.WINDOW, position = "Utility->Terminals", isInstalled = true)
+@ABDPopmenuEntry(fxml = "/windows/terminalWindow.fxml", order = 1, text = "Open terminal here")
 public class TerminalWindow extends BaseWindow {
 
     @FXML
@@ -21,6 +26,7 @@ public class TerminalWindow extends BaseWindow {
 
     @FXML
     private Label lblPrompt;
+
 
     @FXML
     private StyleClassedTextArea txtConsole;
@@ -47,7 +53,6 @@ public class TerminalWindow extends BaseWindow {
 
         updatePromptLabel();
         getEngine().getShellManager().parse(terminal, "header");
-
 
 
         edtCommand.setOnAction(event ->
