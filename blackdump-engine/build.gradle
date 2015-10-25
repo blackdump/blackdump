@@ -32,6 +32,9 @@ dependencies {
     compile "io.reactivex:rxjava:$rxVersion"
 
 
+    compile 'com.asual.lesscss:lesscss-engine:1.5.1'
+
+
 
     compile "org.xeustechnologies:jcl-core:$jclVersion"
 
