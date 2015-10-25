@@ -3,6 +3,7 @@ package com.github.blackdump.ui;
  * Fa partire la GUI
  */
 
+import com.asual.lesscss.LessEngine;
 import com.github.blackdump.annotations.ABDDesktopWidget;
 import com.github.blackdump.annotations.ABDManager;
 import com.github.blackdump.annotations.ABDMenuItem;
@@ -15,9 +16,10 @@ import com.github.blackdump.interfaces.managers.IUiManager;
 import com.github.blackdump.interfaces.windows.IBDDesktopWidget;
 import com.github.blackdump.interfaces.windows.IBDWindow;
 import com.github.blackdump.interfaces.windows.IWindowListener;
-import com.github.blackdump.ui.windows.less.at.bestsolution.efxclipse.less.LessCSSLoader;
 import com.github.blackdump.utils.AppInfo;
 import com.github.blackdump.utils.ReflectionUtils;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -39,7 +41,6 @@ import org.reflections.scanners.ResourcesScanner;
 import org.reflections.util.ClasspathHelper;
 
 import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -65,7 +66,7 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
     private Thread mGuiThread;
     private List<IBDWindow> mActiveWindows = new ArrayList<>();
     private List<IWindowListener> mListeners = new ArrayList<>();
-    private LessCSSLoader mLessCompiler;
+    private LessEngine mLessCompiler;
 
     protected static void log(Level level, String text, Object... args) {
         mLogger.log(level, String.format(text, args));
@@ -376,7 +377,7 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
 
             log(Level.INFO, "Creating LESS Manager");
 
-            mLessCompiler = new LessCSSLoader();
+            mLessCompiler = new LessEngine();
 
             log(Level.INFO, "Creating LESS Manager OK");
 
@@ -425,12 +426,11 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
                     log(Level.INFO, "Compiling %s LESS ....", file);
                     String destFile = file.split("/")[file.split("/").length - 1].replace(".less", ".css");
 
-                    URL compiledCss = mLessCompiler.loadLess(getClass().getResource("/" + file));
+                    String compiledCss = mLessCompiler.compile(Resources.toString(getClass().getResource("/" + file), Charsets.UTF_8));
                     log(Level.INFO, "Compiled %s LESS!", file);
 
-                    String css = FileUtils.readFileToString(new File(compiledCss.toURI()));
 
-                    FileUtils.writeStringToFile(new File(mCssThemesDirectory + destFile), css);
+                    FileUtils.writeStringToFile(new File(mCssThemesDirectory + destFile), compiledCss);
 
                     log(Level.INFO, "Coping to %s", mCssThemesDirectory + destFile);
 
