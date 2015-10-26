@@ -2,6 +2,8 @@ package com.github.blackdump.base;
 
 import com.github.blackdump.interfaces.engine.IBlackdumpEngine;
 import com.github.blackdump.interfaces.windows.IBDDesktopWidget;
+import com.github.blackdump.interfaces.windows.dialogs.DialogTypeEnum;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import lombok.AccessLevel;
@@ -75,6 +77,20 @@ public class BaseDesktopWidget implements IBDDesktopWidget{
             getEngine().getUiManager().removeDesktopChildren(myPane);
         }
 
+    }
+
+    protected Image getImageByDialogType(DialogTypeEnum type) {
+        switch (type) {
+            case OK:
+                return new Image(getClass().getResourceAsStream("/icons/ic_ok.png"));
+            case ERROR:
+                return new Image(getClass().getResourceAsStream("/icons/ic_error.png"));
+            case WARNING:
+                return new Image(getClass().getResourceAsStream("/icons/ic_warning.png"));
+            case INFO:
+                return new Image(getClass().getResourceAsStream("/icons/ic_info.png"));
+        }
+        return null;
     }
 
 

@@ -2,6 +2,7 @@ package com.github.blackdump.ui.widgets;
 
 import com.github.blackdump.annotations.ABDDesktopWidget;
 import com.github.blackdump.base.BaseDesktopWidget;
+import com.github.blackdump.interfaces.windows.dialogs.DialogTypeEnum;
 import com.github.blackdump.interfaces.windows.dialogs.IConfirmDialogListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -35,12 +36,15 @@ public class ConfirmDialogWidget extends BaseDesktopWidget {
 
     }
 
-    public void showConfirm(String title, String text, IConfirmDialogListener listener)
+    public void showConfirm(String title, String text, DialogTypeEnum type, IConfirmDialogListener listener)
     {
         lblTitle.setText(title);
         lblText.setText(text);
 
         btnAbort.setOnAction(event -> listener.onAbort());
         btnOK.setOnAction(event -> listener.onOK());
+        imgDialog.setImage(getImageByDialogType(type));
     }
+
+
 }

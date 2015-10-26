@@ -3,6 +3,7 @@ package com.github.blackdump.shell.commands;
 import com.github.blackdump.annotations.ABDShellCommand;
 import com.github.blackdump.base.BaseShellCommand;
 import com.github.blackdump.data.ui.WidgetBuiltData;
+import com.github.blackdump.interfaces.windows.dialogs.DialogTypeEnum;
 import com.github.blackdump.interfaces.windows.dialogs.IConfirmDialogListener;
 import com.github.blackdump.ui.widgets.ConfirmDialogWidget;
 import org.apache.log4j.Level;
@@ -19,7 +20,7 @@ public class TestConfirmCommand extends BaseShellCommand {
 
         ConfirmDialogWidget prgProgressDialogWidget = (ConfirmDialogWidget)data.getWidgetController();
 
-        prgProgressDialogWidget.showConfirm("// Blackdump", "Are you sure ?", new IConfirmDialogListener() {
+        prgProgressDialogWidget.showConfirm("// Blackdump", "Are you sure ?", DialogTypeEnum.INFO, new IConfirmDialogListener() {
             @Override
             public void onOK() {
                 log(Level.INFO, "OK");

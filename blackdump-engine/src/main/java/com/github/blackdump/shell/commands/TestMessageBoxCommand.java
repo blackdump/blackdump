@@ -3,6 +3,7 @@ package com.github.blackdump.shell.commands;
 import com.github.blackdump.annotations.ABDShellCommand;
 import com.github.blackdump.base.BaseShellCommand;
 import com.github.blackdump.data.ui.WidgetBuiltData;
+import com.github.blackdump.interfaces.windows.dialogs.DialogTypeEnum;
 import com.github.blackdump.ui.widgets.MessageDialogWidget;
 
 /**
@@ -21,7 +22,7 @@ public class TestMessageBoxCommand extends BaseShellCommand {
         data.getWidgetPane().setLayoutY(getEngine().getUiManager().getDesktopHeight() / 2 - data.getWidgetPane().getPrefHeight() / 2);
 
         getEngine().getUiManager().addDesktopChildren(data.getWidgetPane());
-        prgProgressDialogWidget.show("// Blackdump", "Are you sure ?", () -> data.getWidgetPane().setVisible(false));
+        prgProgressDialogWidget.show("// Blackdump", "Are you sure ?", DialogTypeEnum.OK, () -> data.getWidgetPane().setVisible(false));
 
         return "OK";
     }
