@@ -8,6 +8,7 @@ import com.github.blackdump.annotations.ABDDesktopWidget;
 import com.github.blackdump.annotations.ABDManager;
 import com.github.blackdump.annotations.ABDMenuItem;
 import com.github.blackdump.annotations.ABDPopmenuEntry;
+import com.github.blackdump.data.ui.WidgetBuiltData;
 import com.github.blackdump.eventbus.EventBusMessages;
 import com.github.blackdump.eventbus.ObservableVariablesManager;
 import com.github.blackdump.interfaces.engine.IBlackdumpEngine;
@@ -23,11 +24,14 @@ import com.google.common.io.Resources;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import jfxtras.labs.scene.control.window.CloseIcon;
 import jfxtras.labs.scene.control.window.MinimizeIcon;
@@ -96,7 +100,10 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
 
             primaryStage.setResizable(true);
             primaryStage.setFullScreen(true);
-            primaryStage.setScene(new Scene(root, 600, 500));
+
+            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+
+            primaryStage.setScene(new Scene(root, primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight()));
 
             File mTheme = new File(mCssThemesDirectory + engine.getConfig().getDefaultTheme());
             primaryStage.getScene().getStylesheets().add("file:///" + mTheme.getAbsolutePath().replace("\\", "/"));
@@ -119,6 +126,16 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
 
         }
 
+    }
+
+    @Override
+    public double getDesktopHeight() {
+        return root.getHeight();
+    }
+
+    @Override
+    public double getDesktopWidth() {
+        return root.getWidth();
     }
 
     private void showNotification(Object o) {
@@ -251,6 +268,7 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
         }
     }
 
+    @Override
     public void createWidget(String fxml)
     {
         try
@@ -279,11 +297,58 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
     }
 
     @Override
+    public WidgetBuiltData buildWidget(String name)
+    {
+
+        WidgetBuiltData data = new WidgetBuiltData();
+        try
+        {
+            ABDDesktopWidget widget = mWidgets.stream().filter(s -> s.name().toLowerCase().equals(name.toLowerCase())).findFirst().get();
+
+            if (widget != null)
+            {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(widget.fxmlFilename()));
+
+                Pane pane = fxmlLoader.load();
+
+                IBDDesktopWidget controller = fxmlLoader.<IBDDesktopWidget>getController();
+
+                if (controller != null)
+                {
+                    controller.setEngine(engine);
+                    controller.setDesktop(root);
+
+                }
+
+                data.setWidgetController(controller);
+                data.setWidgetPane(pane);
+
+            }
+
+        }
+        catch (Exception ex)
+        {
+            log(Level.FATAL, "Error during build widget name %s => %s", name, ex.getMessage());
+        }
+
+        return data;
+    }
+
+    @Override
+    public void addDesktopChildren(Node object)
+    {
+        root.getChildren().add(object);
+    }
+
+
+
+    @Override
     public void createWindow(String title, String fxml, boolean minizeButton, boolean closeButton, boolean center)
     {
         try
         {
             Window window = new Window(title);
+            window.getStyleClass().add("default-window");
             window.setTitleBarStyleClass("default-window-titlebar");
             window.setOpacity(0.9);
 
@@ -310,8 +375,8 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
                 Pane pnl = fxmlLoader.load();
 
                 if (center) {
-                    window.setLayoutX(root.getWidth() / 2 + pnl.getWidth() / 2);
-                    window.setLayoutY(root.getHeight() / 2 + pnl.getHeight() / 2);
+                    window.setLayoutX(root.getWidth() / 2 - pnl.getPrefWidth() / 2);
+                    window.setLayoutY(root.getHeight() / 2 - pnl.getPrefHeight() / 2);
                 }
                 window.setContentPane(pnl);
                 IBDWindow controller = fxmlLoader.<IBDWindow>getController();
@@ -460,16 +525,21 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
                 new File(mCssThemesDirectory + "fonts").mkdirs();
                 log(Level.INFO, "Creating fonts directory and copy internal fonts");
 
-                for(String file : files)
-                {
-                    String destFile = file.split("/")[file.split("/").length -1];
+
+
+            }
+
+            for(String file : files)
+            {
+                String destFile = file.split("/")[file.split("/").length -1];
+
+                if (!new File(mCssThemesDirectory + "fonts" + File.separator + destFile).exists()) {
 
                     FileUtils.copyInputStreamToFile(getClass().getResource("/" + file).openStream(), new File(mCssThemesDirectory + "fonts" + File.separator + destFile));
 
 
                     log(Level.INFO, "File %s copied", destFile);
                 }
-
             }
 
             if (!new File(mThemesDirectory + File.separator + "backgrounds").exists()) {

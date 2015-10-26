@@ -65,6 +65,8 @@ public interface IBlackdumpEngine {
 
 
 
+
+
     /**
      * Esce dall'applicazione, se e' impostato il force a TRUE, chiude tutto subito
      * @param force

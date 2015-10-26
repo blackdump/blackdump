@@ -1,11 +1,17 @@
 package com.github.blackdump.interfaces.managers;
 
+import com.github.blackdump.data.ui.WidgetBuiltData;
 import com.github.blackdump.interfaces.windows.IWindowListener;
+import javafx.scene.Node;
 
 /**
  * Interfaccia per il creatore della UI
  */
 public interface IUiManager {
+
+    double getDesktopWidth();
+
+    double getDesktopHeight();
 
     /**
      * Crea una nuova finestra caricato il file fxml
@@ -29,5 +35,9 @@ public interface IUiManager {
     void notifyAfterLogin();
 
     void addWindowListener(IWindowListener listener);
+
+    WidgetBuiltData buildWidget(String name);
+
+    void addDesktopChildren(Node object);
 
 }

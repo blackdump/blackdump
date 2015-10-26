@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity"
-            minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="600.0" styleClass="mnuDefault"
-            xmlns="http://javafx.com/javafx/8.0.60" fx:controller="com.github.blackdump.ui.windows.MenuBar">
+
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="600.0" styleClass="mnuDefault" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.blackdump.ui.windows.MenuBar">
    <left>
       <MenuBar prefHeight="40.0" prefWidth="134.0" BorderPane.alignment="CENTER">
         <menus>
@@ -12,10 +13,10 @@
                <graphic>
                   <MenuButton mnemonicParsing="false" text="SquidOS">
                     <items>
-                        <Menu fx:id="mnuPrograms" mnemonicParsing="false" text="Programs"/>
-                        <SeparatorMenuItem mnemonicParsing="false"/>
-                        <MenuItem mnemonicParsing="false" text="Execute command"/>
-                        <MenuItem mnemonicParsing="false" text="Shutdown SquidOs"/>
+                        <Menu fx:id="mnuPrograms" mnemonicParsing="false" text="Programs" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Execute command" />
+                        <MenuItem mnemonicParsing="false" text="Shutdown SquidOs" />
                     </items>
                   </MenuButton>
                </graphic>
@@ -24,15 +25,19 @@
       </MenuBar>
    </left>
    <center>
-       <HBox fx:id="pnlWindowsList" alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="230.0"
-             BorderPane.alignment="CENTER"/>
+       <HBox fx:id="pnlWindowsList" alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="230.0" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <children>
+            <Separator opacity="0.0" orientation="VERTICAL" prefHeight="44.0" prefWidth="13.0" />
+         </children></HBox>
    </center>
     <right>
         <HBox prefHeight="46.0" prefWidth="257.0" BorderPane.alignment="CENTER">
             <children>
-                <HBox prefHeight="46.0" prefWidth="143.0"/>
-                <Label fx:id="lblClock" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="45.0"
-                       prefWidth="285.0" text="dd/MM/YYYY HH:mm:ss"/>
+                <HBox prefHeight="46.0" prefWidth="143.0" />
+                <Label fx:id="lblClock" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="45.0" prefWidth="285.0" text="dd/MM/YYYY HH:mm:ss" />
             </children>
         </HBox>
     </right>

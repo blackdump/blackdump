@@ -34,6 +34,6 @@ public class FuncsUtility {
     }
 
     public static String getCurrentDateTime() {
-        return LocalDateTime.now().minusYears(20).format(DateTimeFormatter.ofPattern("dd/mm/YYYY HH:mm:ss "));
+        return LocalDateTime.now().minusYears(20).format(DateTimeFormatter.ofPattern("dd/MM/YYYY HH:mm:ss "));
     }
 }

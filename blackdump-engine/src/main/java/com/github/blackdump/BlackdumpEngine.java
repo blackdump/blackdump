@@ -69,8 +69,6 @@ public class BlackdumpEngine implements IBlackdumpEngine {
         loadMods();
         scanForManagers();
 
-        
-
     }
 
     /**

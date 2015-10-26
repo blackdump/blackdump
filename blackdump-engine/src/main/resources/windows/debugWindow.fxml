@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60"
-            fx:controller="com.github.blackdump.ui.windows.DebugWindow">
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.blackdump.ui.windows.DebugWindow">
     <center>
         <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
             <tabs>
-                <Tab text="Sessione corrente"/>
+                <Tab closable="false" text="Sessione corrente" />
                 <Tab text="God mode">
                     <content>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                             <children>
-                                <Slider layoutX="14.0" layoutY="41.0" prefHeight="16.0" prefWidth="167.0"/>
-                                <Label layoutX="14.0" layoutY="14.0" prefHeight="16.0" prefWidth="129.0"
-                                       text="Aggiungi money $"/>
-                                <TextField layoutX="14.0" layoutY="64.0"/>
-                                <Button layoutX="14.0" layoutY="101.0" mnemonicParsing="false" text="+"/>
-                                <Button layoutX="162.0" layoutY="101.0" mnemonicParsing="false" text="-"/>
+                                <Slider layoutX="14.0" layoutY="41.0" prefHeight="16.0" prefWidth="167.0" />
+                                <Label layoutX="14.0" layoutY="14.0" prefHeight="16.0" prefWidth="129.0" text="Aggiungi money $" />
+                                <TextField layoutX="14.0" layoutY="64.0" />
+                                <Button layoutX="14.0" layoutY="101.0" mnemonicParsing="false" text="+" />
+                                <Button layoutX="162.0" layoutY="101.0" mnemonicParsing="false" text="-" />
                             </children>
                         </AnchorPane>
                     </content>

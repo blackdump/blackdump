@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<FlowPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="136.0" prefWidth="572.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.blackdump.ui.widgets.ProgressDialogWidget">
+   <children>
+      <Label fx:id="lblTitle" prefHeight="31.0" prefWidth="572.0" text="// Downloading" />
+      <Pane prefHeight="105.0" prefWidth="573.0" styleClass="pane">
+         <children>
+            <ProgressBar fx:id="prgStatus" layoutX="14.0" layoutY="14.0" prefHeight="38.0" prefWidth="466.0" progress="0.63" />
+            <Label fx:id="lblRemainingTime" layoutX="14.0" layoutY="53.0" prefHeight="15.0" prefWidth="547.0" text="Remaining time: 30 sec..." />
+            <Label fx:id="lblStatus" layoutX="486.0" layoutY="14.0" prefHeight="38.0" prefWidth="75.0" text="50.0 %" />
+            <Label fx:id="lblFileStatus" layoutX="14.0" layoutY="76.0" prefHeight="15.0" prefWidth="547.0" text="/tmp/passwd &gt; /mnt/passwd" />
+         </children>
+      </Pane>
+   </children>
+</FlowPane>

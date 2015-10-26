@@ -27,7 +27,7 @@ import java.util.TimerTask;
 /**
  * Classe per la creazione della menu bar
  */
-@ABDDesktopWidget(fxmlFilename = "/windows/menuBar.fxml", loadAfterLogin = true)
+@ABDDesktopWidget(fxmlFilename = "/windows/menuBar.fxml", loadAfterLogin = true, name = "menubar")
 public class MenuBar extends BaseDesktopWidget implements IWindowListener {
 
 
@@ -96,10 +96,16 @@ public class MenuBar extends BaseDesktopWidget implements IWindowListener {
     @Override
     public void onWindowClosed(IBDWindow window) {
 
-        Optional<Node> btn = pnlWindowsList.getChildren().stream().filter(s -> s.getId().equals(Long.toString(window.getWindowUid()))).findFirst();
+        try {
+            Optional<Node> btn = pnlWindowsList.getChildren().stream().filter(s -> s.getId().equals(Long.toString(window.getWindowUid()))).findFirst();
 
-        if (btn.isPresent()) {
-            pnlWindowsList.getChildren().remove(btn.get());
+            if (btn.isPresent()) {
+                pnlWindowsList.getChildren().remove(btn.get());
+            }
+        }
+        catch (Exception ex)
+        {
+
         }
     }
 
