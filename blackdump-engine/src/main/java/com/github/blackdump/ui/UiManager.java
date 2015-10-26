@@ -322,7 +322,7 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
 
                 data.setWidgetController(controller);
                 data.setWidgetPane(pane);
-
+                data.getWidgetController().setMyPane(pane);
             }
 
         }
@@ -340,6 +340,11 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
         root.getChildren().add(object);
     }
 
+    @Override
+    public void removeDesktopChildren(Node node) {
+
+        root.getChildren().remove(node);
+    }
 
 
     @Override

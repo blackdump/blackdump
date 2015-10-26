@@ -1,5 +1,5 @@
-@default-font-family: 'VCR OSD Mono';
-@default-font-size: 13px;
+@default-font-family: 'Monaco';
+@default-font-size: 12px;
 @default-background-color: black;
 @default-foreground-color: #45D40C;
 @default-border-color: #45D40C;
@@ -43,7 +43,6 @@
   -fx-background-color: @default-background-color;
   -fx-text-fill: @default-foreground-color;
 }
-
 
 #txtHeader .content {
   -fx-background-color: @default-background-color;
@@ -100,7 +99,6 @@
   -fx-background-color: @default-background-color;
 }
 
-
 .btnDefault {
   -fx-font-family: @default-font-family;
   -fx-border-color: @default-foreground-color;
@@ -134,7 +132,10 @@
 
 .default-window {
   -fx-border-color: @default-foreground-color;
-  -fx-background-color: @default-background-color;
+  -fx-effect: dropshadow(three-pass-box, derive(@default-background-color, -20%), 10, 0, 4, 4);
+  -fx-background-color: derive(@default-background-color, -20%);
+  -fx-background-insets: 12;
+  -fx-background-radius: 8;
 
 }
 
@@ -318,14 +319,11 @@ mnuDefault .menu-bar .menu-button .menu-item:hover {
 }
 
 .progress-bar > .bar {
-  -fx-background-color: linear-gradient(
-          from 0px .75em to .75em 0px,
-          repeat,
-          -fx-accent 0%,
-          -fx-accent 50%,
-          derive(-fx-accent, 30%) 50%,
-          derive(-fx-accent, 30%) 99%
-  );
+  -fx-background-color: springgreen;
+  -fx-border-radius:13px;
+  -fx-fill-height:  20px;
+  -fx-fill-width: 300px;
+  -fx-padding: 3px;
 }
 
 .pane {

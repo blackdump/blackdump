@@ -23,6 +23,9 @@ public class BaseDesktopWidget implements IBDDesktopWidget{
     private IBlackdumpEngine engine;
 
 
+    private Pane myPane;
+
+
 
     public BaseDesktopWidget()
     {
@@ -43,6 +46,35 @@ public class BaseDesktopWidget implements IBDDesktopWidget{
 
         this.parentDesktop = parent;
         ready();
+    }
+
+    @Override
+    public void setMyPane(Pane pane) {
+
+        this.myPane = pane;
+    }
+
+    @Override
+    public void center() {
+        myPane.setLayoutX(getEngine().getUiManager().getDesktopWidth() / 2 - myPane.getPrefWidth() / 2);
+        myPane.setLayoutY(getEngine().getUiManager().getDesktopHeight() / 2 - myPane.getPrefHeight() / 2);
+    }
+
+    @Override
+    public void addToDesktop() {
+        if (myPane != null)
+        {
+            getEngine().getUiManager().addDesktopChildren(myPane);
+        }
+    }
+
+    @Override
+    public void removeFromDesktop() {
+        if (myPane != null)
+        {
+            getEngine().getUiManager().removeDesktopChildren(myPane);
+        }
+
     }
 
 

@@ -44,5 +44,6 @@
     <orderEntry type="library" exported="" name="Gradle: com.asual.lesscss:lesscss-engine:1.5.1" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.mozilla:rhino:1.7R4" level="project" />
     <orderEntry type="library" exported="" name="Gradle: commons-logging:commons-logging:1.1.1" level="project" />
+    <orderEntry type="module" module-name="blackdump-network" exported="" />
   </component>
 </module>

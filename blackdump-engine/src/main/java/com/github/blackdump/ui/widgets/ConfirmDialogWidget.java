@@ -2,7 +2,7 @@ package com.github.blackdump.ui.widgets;
 
 import com.github.blackdump.annotations.ABDDesktopWidget;
 import com.github.blackdump.base.BaseDesktopWidget;
-import com.github.blackdump.interfaces.windows.IConfirmDialogListener;
+import com.github.blackdump.interfaces.windows.dialogs.IConfirmDialogListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

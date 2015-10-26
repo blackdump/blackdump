@@ -16,7 +16,7 @@
                         <Menu fx:id="mnuPrograms" mnemonicParsing="false" text="Programs" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="Execute command" />
-                        <MenuItem mnemonicParsing="false" text="Shutdown SquidOs" />
+                        <MenuItem fx:id="btnShutdown" mnemonicParsing="false" text="Shutdown SquidOs" />
                     </items>
                   </MenuButton>
                </graphic>

@@ -3,9 +3,8 @@ package com.github.blackdump.shell.commands;
 import com.github.blackdump.annotations.ABDShellCommand;
 import com.github.blackdump.base.BaseShellCommand;
 import com.github.blackdump.data.ui.WidgetBuiltData;
-import com.github.blackdump.interfaces.windows.IConfirmDialogListener;
+import com.github.blackdump.interfaces.windows.dialogs.IConfirmDialogListener;
 import com.github.blackdump.ui.widgets.ConfirmDialogWidget;
-import com.github.blackdump.ui.widgets.ProgressDialogWidget;
 import org.apache.log4j.Level;
 
 /**
@@ -20,11 +19,7 @@ public class TestConfirmCommand extends BaseShellCommand {
 
         ConfirmDialogWidget prgProgressDialogWidget = (ConfirmDialogWidget)data.getWidgetController();
 
-        data.getWidgetPane().setLayoutX(getEngine().getUiManager().getDesktopWidth() / 2 - data.getWidgetPane().getPrefWidth() / 2);
-        data.getWidgetPane().setLayoutY(getEngine().getUiManager().getDesktopHeight() / 2 - data.getWidgetPane().getPrefHeight() / 2);
-
-        getEngine().getUiManager().addDesktopChildren(data.getWidgetPane());
-        prgProgressDialogWidget.showConfirm("// Blackdump", "Sicuro che 2+2 fa 4?", new IConfirmDialogListener() {
+        prgProgressDialogWidget.showConfirm("// Blackdump", "Are you sure ?", new IConfirmDialogListener() {
             @Override
             public void onOK() {
                 log(Level.INFO, "OK");
@@ -37,6 +32,9 @@ public class TestConfirmCommand extends BaseShellCommand {
                 data.getWidgetPane().setVisible(false);
             }
         });
+
+        prgProgressDialogWidget.addToDesktop();
+        prgProgressDialogWidget.center();
 
         return "OK";
     }

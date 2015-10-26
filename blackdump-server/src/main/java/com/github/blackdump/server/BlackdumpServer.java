@@ -1,5 +1,7 @@
 package com.github.blackdump.server;
 
+import org.springframework.stereotype.Component;
+
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.util.Queue;
@@ -8,39 +10,42 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 /**
  * Created by squid on 10/25/15.
  */
-@ServerEndpoint("/server")
-public class BlackdumpServer {
+@Component
+public class BlackdumpServer extends Endpoint implements MessageHandler.Whole<String> {
     //queue holds the list of connected clients
     private static Queue<Session> queue = new ConcurrentLinkedQueue<Session>();
     private static Thread rateThread; //rate publisher thread
 
 
-    @OnMessage
-    public void onMessage(Session session, String msg) {
-//provided for completeness, in out scenario clients don't send any msg.
-        try {
-            System.out.println("received msg " + msg + " from " + session.getId());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public BlackdumpServer()
+    {
+        System.out.println("CREATED");
     }
 
-    @OnOpen
-    public void open(Session session) {
-        queue.add(session);
-        System.out.println("New session opened: " + session.getId());
-    }
 
-    @OnError
-    public void error(Session session, Throwable t) {
+    @Override
+    public void onError(Session session, Throwable thr) {
         queue.remove(session);
         System.err.println("Error on session " + session.getId());
     }
 
-    @OnClose
-    public void closedConnection(Session session) {
+    @Override
+    public void onClose(Session session, CloseReason closeReason) {
         queue.remove(session);
         System.out.println("session closed: " + session.getId());
     }
 
+
+
+    @Override
+    public void onOpen(Session session, EndpointConfig config) {
+        queue.add(session);
+        session.addMessageHandler(this);
+        System.out.println("New session opened: " + session.getId());
+    }
+
+    @Override
+    public void onMessage(String message) {
+
+    }
 }

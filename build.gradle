@@ -55,6 +55,7 @@ project(':blackdump-engine')
         {
             dependencies {
                 compile project(':blackdump-api')
+                compile project(':blackdump-network')
                 compile  "org.fxmisc.richtext:richtextfx:$richtextfxVersion"
             }
         }

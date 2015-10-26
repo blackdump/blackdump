@@ -40,4 +40,6 @@ public interface IUiManager {
 
     void addDesktopChildren(Node object);
 
+    void removeDesktopChildren(Node node);
+
 }

@@ -2,7 +2,7 @@ package com.github.blackdump.ui.widgets;
 
 import com.github.blackdump.annotations.ABDDesktopWidget;
 import com.github.blackdump.base.BaseDesktopWidget;
-import com.github.blackdump.interfaces.windows.IProgressDialogListener;
+import com.github.blackdump.interfaces.windows.dialogs.IProgressDialogListener;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;

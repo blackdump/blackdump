@@ -4,10 +4,16 @@ import com.github.blackdump.annotations.ABDDesktopWidget;
 import com.github.blackdump.annotations.ABDMenuItem;
 import com.github.blackdump.annotations.WindowType;
 import com.github.blackdump.base.BaseDesktopWidget;
+import com.github.blackdump.data.ui.WidgetBuiltData;
 import com.github.blackdump.interfaces.windows.IBDWindow;
 import com.github.blackdump.interfaces.windows.IWindowListener;
+import com.github.blackdump.interfaces.windows.dialogs.IConfirmDialogListener;
+import com.github.blackdump.ui.widgets.ConfirmDialogWidget;
+import com.github.blackdump.utils.AppInfo;
 import com.github.blackdump.utils.FuncsUtility;
 import javafx.animation.FadeTransition;
+import javafx.animation.SequentialTransition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -43,6 +49,9 @@ public class MenuBar extends BaseDesktopWidget implements IWindowListener {
     @FXML
     private Menu mnuPrograms;
 
+    @FXML
+    private MenuItem btnShutdown;
+
     @Override
     protected void ready() {
 
@@ -64,10 +73,34 @@ public class MenuBar extends BaseDesktopWidget implements IWindowListener {
             }
         },1000, 1000 );
 
+
+        btnShutdown.setOnAction(event -> {
+            WidgetBuiltData data = getEngine().getUiManager().buildWidget("confirmdialog");
+
+            ConfirmDialogWidget controller = (ConfirmDialogWidget)data.getWidgetController();
+
+            controller.showConfirm("//" + AppInfo.AppName, "Are you sure to exit?", new IConfirmDialogListener() {
+                @Override
+                public void onOK() {
+                    getEngine().quit(true);
+                    controller.removeFromDesktop();
+                }
+
+                @Override
+                public void onAbort() {
+
+                }
+            });
+
+            controller.addToDesktop();
+            controller.center();
+        });
+
         FadeTransition ft = new FadeTransition(Duration.millis(1000), root);
         ft.setFromValue(0.0);
         ft.setToValue(1.0);
         ft.play();
+
 
 
     }

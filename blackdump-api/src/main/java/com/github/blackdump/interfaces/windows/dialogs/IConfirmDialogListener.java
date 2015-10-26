@@ -1,4 +1,4 @@
-package com.github.blackdump.interfaces.windows;
+package com.github.blackdump.interfaces.windows.dialogs;
 
 /**
  * Interfaccia per creare i listener dei confirm dialog

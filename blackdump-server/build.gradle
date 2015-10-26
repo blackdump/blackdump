@@ -7,6 +7,12 @@
  * user guide available at https://docs.gradle.org/2.7/userguide/tutorial_java_projects.html
  */
 
+project.ext {
+    tomcatVersion = '8.0.28'
+    springVersion = '4.2.2.RELEASE'
+    jsfVersion = '2.2.12'
+}
+
 buildscript {
     repositories {
         jcenter()
@@ -27,12 +33,21 @@ repositories {
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
 }
-
+//
 // In this section you declare the dependencies for your production and test code
 dependencies {
     // The production code uses the SLF4J logging API at compile time
     compile 'org.slf4j:slf4j-api:1.7.12'
+    compile "org.apache.tomcat:tomcat-dbcp:$tomcatVersion"
+    compile "org.springframework:spring-context:$springVersion"
+    compile "org.springframework:spring-orm:$springVersion"
+    compile "org.springframework:spring-web:$springVersion"
+    compile "org.springframework:spring-websocket:$springVersion"
+    compile "org.springframework:spring-messaging:$springVersion"
+    compile "org.springframework:spring-webmvc:$springVersion"
 
+    compile "com.sun.faces:jsf-api:$jsfVersion"
+    compile "com.sun.faces:jsf-impl:$jsfVersion"
     // Declare the dependency for your favourite test framework you want to use in your tests.
     // TestNG is also supported by the Gradle Test task. Just change the
     // testCompile dependency to testCompile 'org.testng:testng:6.8.1' and add
