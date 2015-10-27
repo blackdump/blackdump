@@ -74,10 +74,11 @@ project(':blackdump-network')
             }
         }
 
-project(':blackdump-server')
+project(':blackdump-webserver')
         {
             dependencies {
                 compile project(':blackdump-api')
                 compile project(':blackdump-network')
+                compile ("org.springframework.boot:spring-boot-starter-web:1.2.7.RELEASE")
             }
         }
