@@ -1,93 +1,84 @@
 package com.github.blackdump.network;
 
+import com.github.blackdump.eventbus.EventBusMessages;
+import com.github.blackdump.eventbus.ObservableVariablesManager;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.fusesource.hawtbuf.AsciiBuffer;
+import org.fusesource.hawtbuf.Buffer;
+import org.fusesource.stomp.client.Callback;
+import org.fusesource.stomp.client.CallbackConnection;
+import org.fusesource.stomp.client.Stomp;
+import org.fusesource.stomp.codec.StompFrame;
+
 /**
  * WebSocket client per collegarsi al server
  */
 
-import com.github.blackdump.data.network.BlackdumpMessage;
-import com.github.blackdump.eventbus.EventBusMessages;
-import com.github.blackdump.eventbus.ObservableVariablesManager;
-import com.github.blackdump.interfaces.network.IBlackdumpClientListener;
-import com.github.blackdump.serializer.JsonSerializer;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 
-import javax.websocket.*;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-
-@ClientEndpoint
 public class BlackdumpClient {
 
+    public String serverUrl;
 
-    public static Object waitLock = new Object();
-    private static Logger mLogger = Logger.getLogger(BlackdumpClient.class);
-    private Session mCurrentSession;
-    private WebSocketContainer mContainer;
-    private List<IBlackdumpClientListener> mListeners = new ArrayList<>();
-    private String serverUrl;
+    private Stomp mStomp;
 
-    public BlackdumpClient(String serverUrl) {
+    private StompFrame mHandleFrame;
+    private Logger mLogger;
+
+    private AsciiBuffer mId;
+
+    public BlackdumpClient(String serverUrl)
+    {
+        this.mLogger = Logger.getLogger(getClass());
         this.serverUrl = serverUrl;
-        ObservableVariablesManager.subscribe(EventBusMessages.NETWORK_SEND_MESSAGE, o -> {
-
-            BlackdumpMessage message = (BlackdumpMessage) o;
-            String strMessage = JsonSerializer.Serialize(message);
-
-            mCurrentSession.getAsyncRemote().sendText(strMessage);
-        });
+        ObservableVariablesManager.subscribe(EventBusMessages.NETWORK_SEND_MESSAGE, this::onMessage);
     }
 
-    public void connect() {
-        try {
-            mContainer = ContainerProvider.getWebSocketContainer();
-
-            notifyConnecting();
-
-            mCurrentSession = mContainer.connectToServer(this, URI.create(serverUrl));
-
-            notifyConnected();
-
-        } catch (Exception ex) {
-            log(Level.FATAL, "Error during connect %s ==> %s", serverUrl, ex.getMessage());
-        }
-    }
-
-    @OnMessage
-    public void onMessage(String message) {
-        try {
-            BlackdumpMessage blackdumpMessage = JsonSerializer.Deserialize(message, BlackdumpMessage.class);
-
-            ObservableVariablesManager.updateVariable(EventBusMessages.NETWORK_ON_MESSAGE, blackdumpMessage);
-
-            for (int i = 0; i < mListeners.size(); i++) {
-                mListeners.get(i).onMessage(blackdumpMessage);
-            }
-        } catch (Exception ex) {
-            log(Level.FATAL, "Error during receiving network server => %s", ex.getMessage());
-        }
-
-    }
-
-    public void addListener(IBlackdumpClientListener listener) {
-        mListeners.add(listener);
-    }
-
-    public void notifyConnecting() {
-        for (int i = 0; i < mListeners.size(); i++) {
-            mListeners.get(i).onConnecting(serverUrl);
-        }
-
-    }
-
-    public void notifyConnected() {
-        for (int i = 0; i < mListeners.size(); i++) {
-            mListeners.get(i).onConnected(serverUrl);
-        }
-    }
-
-    protected void log(Level level, String text, Object... args) {
+    protected void log(Level level,String text, String ... args)
+    {
         mLogger.log(level, String.format(text, args));
     }
+
+    public void connect()
+    {
+        try
+        {
+            mStomp = new Stomp(serverUrl.split(":")[0], Integer.parseInt(serverUrl.split(":")[1]));
+
+            log(Level.INFO, "Connecting to %s", serverUrl);
+
+            mStomp.connectCallback(new Callback<CallbackConnection>() {
+
+                @Override
+                public void onSuccess(CallbackConnection value) {
+                    log(Level.INFO, "Connection is OK");
+                    mId = value.nextId();
+
+                }
+
+                @Override
+                public void onFailure(Throwable value) {
+                    log(Level.ERROR, "Connection error => %s", value.getMessage());
+                }
+            });
+
+
+            mHandleFrame = new StompFrame(Buffer.ascii("SUBSCRIBE"));
+            mHandleFrame.addHeader(Buffer.ascii("DESTINATION"), StompFrame.encodeHeader("/queue/"));
+            mHandleFrame.addHeader(Buffer.ascii("ID"), mId);
+
+        }
+        catch (Exception ex)
+        {
+            log(Level.FATAL, "Error during connect to host => %s", ex.getMessage());
+        }
+
+    }
+
+    private void onMessage(Object obj)
+    {
+        log(Level.INFO, "Receiving message from eventBus type ==> %s", obj.getClass().getSimpleName());
+
+    }
+
 }

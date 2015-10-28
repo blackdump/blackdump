@@ -14,10 +14,15 @@ repositories {
 
 dependencies {
 
-    compile 'org.springframework:spring-webmvc:4.1.7.RELEASE'
-    compile 'javax.servlet:jstl:1.2'
-    compile 'com.sun.faces:jsf-api:2.2.12'
-    compile 'com.sun.faces:jsf-impl:2.2.12'
+    compile "org.springframework:spring-webmvc:$springVersion"
+    compile "org.springframework:spring-web:$springVersion"
+    compile "org.springframework:spring-core:$springVersion"
+    compile "org.springframework:spring-messaging:$springVersion"
+    compile "org.springframework:spring-websocket:$springVersion"
+
+   compile 'javax.servlet:jstl:1.2'
+   // compile 'com.sun.faces:jsf-api:2.2.12'
+   // compile 'com.sun.faces:jsf-impl:2.2.12'
 
 
 

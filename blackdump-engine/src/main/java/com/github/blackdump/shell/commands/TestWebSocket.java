@@ -12,7 +12,7 @@ public class TestWebSocket extends BaseShellCommand {
     @Override
     public Object invoke(String[] args) {
 
-        BlackdumpClient client = new BlackdumpClient("ws://localhost:8080/server/");
+        BlackdumpClient client = new BlackdumpClient("localhost:8080");
 
         client.connect();
 

@@ -7,51 +7,27 @@
 
 <display-name>JavaServerFaces</display-name>
 
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/config/spring-core-config.xml</param-value>
-    </context-param>
-    <context-param>
-        <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
-        <param-value>true</param-value>
-    </context-param>
-    <context-param>
-        <param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
-        <param-value>true</param-value>
-    </context-param>
-    <context-param>
-        <param-name>javax.faces.PROJECT_STAGE</param-name>
-        <!-- 		<param-value>Production</param-value> -->
-        <param-value>Development</param-value>
-    </context-param>
-    <context-param>
-        <param-name>javax.faces.PARTIAL_STATE_SAVING</param-name>
-        <param-value>false</param-value>
-    </context-param>
-
-    <!-- Creates the Spring Container shared by all Servlets and Filters -->
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
-    <listener>
-        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
-    </listener>
-
 
     <servlet>
-        <servlet-name>facesServlet</servlet-name>
-        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <servlet-name>blackdump</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>facesServlet</servlet-name>
-        <url-pattern>*.jsf</url-pattern>
+        <servlet-name>blackdump</servlet-name>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <welcome-file-list>
-        <welcome-file>index.jsf</welcome-file>
-    </welcome-file-list>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/blackdump-servlet.xml</param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
 
 
 </web-app>
