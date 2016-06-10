@@ -10,4 +10,8 @@ public class EventBusMessages {
 
     public static String NOTIFICATION_SHOW_MESSAGE = "NOTIFICATION_SHOW_MESSAGE";
 
+    public static String UI_MANAGER_BROWSER_ADD = "UI_MANAGER_BROWSER_ADD";
+
+    public static String UI_MANAGER_BROWSER_REMOVE = "UI_MANAGER_BROWSER_REMOVE";
+
 }

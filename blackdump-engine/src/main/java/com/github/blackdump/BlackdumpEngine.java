@@ -10,6 +10,7 @@ import com.github.blackdump.interfaces.managers.IUiManager;
 import com.github.blackdump.interfaces.persistence.IBDDatabaseManager;
 import com.github.blackdump.serializer.JsonSerializer;
 import com.github.blackdump.session.SessionManager;
+import com.github.blackdump.utils.JavascriptWrapScanner;
 import com.github.blackdump.utils.ReflectionUtils;
 import com.google.common.base.Strings;
 import lombok.Getter;
@@ -68,6 +69,7 @@ public class BlackdumpEngine implements IBlackdumpEngine {
         initClassLoader();
         loadMods();
         scanForManagers();
+        initJSObjectWrap();
 
     }
 
@@ -265,6 +267,11 @@ public class BlackdumpEngine implements IBlackdumpEngine {
         }
 
         return (T)manager;
+    }
+
+    private void initJSObjectWrap()
+    {
+        JavascriptWrapScanner.getInstance().init(this);
     }
 
     @Override

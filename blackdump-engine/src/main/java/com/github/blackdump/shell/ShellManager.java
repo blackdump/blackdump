@@ -107,13 +107,9 @@ public class ShellManager extends BaseManager implements IShellManager {
 
     @Override
     public void addShellCommandResult(String terminal, IShellCommandResult result) {
-        if (mListeners.get(terminal) == null)
-            mListeners.put(terminal, new ArrayList<>());
+        mListeners.putIfAbsent(terminal, new ArrayList<>());
 
-        if (mPrompts.get(terminal) == null)
-        {
-            mPrompts.put(terminal, String.format("[%s %s]#", SessionManager.getCurrentUser().getEmail(), "~"));
-        }
+        mPrompts.putIfAbsent(terminal, String.format("[%s %s]#", SessionManager.getCurrentUser().getEmail(), "~"));
 
         mListeners.get(terminal).add(result);
     }

@@ -31,11 +31,14 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import jfxtras.labs.scene.control.window.CloseIcon;
 import jfxtras.labs.scene.control.window.MinimizeIcon;
 import jfxtras.labs.scene.control.window.Window;
+import lombok.Getter;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -72,9 +75,13 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
     private List<IWindowListener> mListeners = new ArrayList<>();
     private LessEngine mLessCompiler;
 
+    @Getter
+    private List<WebEngine> browserList;
+
     protected static void log(Level level, String text, Object... args) {
         mLogger.log(level, String.format(text, args));
     }
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -117,6 +124,8 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
             root.setStyle(backgroundStr);
 
             ObservableVariablesManager.subscribe(EventBusMessages.NOTIFICATION_SHOW_MESSAGE, this::showNotification);
+            ObservableVariablesManager.subscribe(EventBusMessages.UI_MANAGER_BROWSER_ADD, this::onAddBrowser);
+            ObservableVariablesManager.subscribe(EventBusMessages.UI_MANAGER_BROWSER_REMOVE, this::onCloseBrowser);
 
             createWindow("Login", "/windows/loginWindow.fxml", false, false, true);
 
@@ -142,6 +151,26 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
         Platform.runLater(() -> {
             Notifications.create().title(AppInfo.AppName).text((String) o).showInformation();
         });
+
+    }
+
+    /**
+     * Viene invocata al momento della creazione di un browser
+     * @param o
+     */
+    private void onAddBrowser(Object o)
+    {
+        browserList.add((WebEngine)o);
+
+    }
+
+    /**
+     * Viene invocata al momento della chiusura
+     * @param o
+     */
+    private void onCloseBrowser(Object o)
+    {
+        browserList.remove((WebEngine)o);
 
     }
 
@@ -411,7 +440,7 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
         }
         catch (Exception ex)
         {
-
+            log(Level.FATAL, "Error during creation of window %s => %s", title, ex.getMessage());
         }
     }
 
