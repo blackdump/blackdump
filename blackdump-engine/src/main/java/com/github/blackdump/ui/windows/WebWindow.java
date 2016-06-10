@@ -55,12 +55,7 @@ public class WebWindow extends BaseWindow {
             });
             prgBrowser.progressProperty().bind(webEngine.getLoadWorker().progressProperty());
 
-
-
-            //   getParentWindow().onCloseActionProperty().setValue(event -> ObservableVariablesManager.updateVariable(EventBusMessages.UI_MANAGER_BROWSER_REMOVE, webEngine));
-
             initJavascriptBridge();
-
 
 
             Platform.runLater(() -> {
@@ -68,6 +63,9 @@ public class WebWindow extends BaseWindow {
             });
 
             btnGo.setOnAction(event -> {
+                if (!edtAddress.getText().startsWith("http://"))
+                    edtAddress.setText("http://" + edtAddress.getText());
+
                 webBrowser.getEngine().load(edtAddress.getText());
             });
         }
@@ -86,8 +84,5 @@ public class WebWindow extends BaseWindow {
         JSObject jsObject = (JSObject)webEngine.executeScript("window");
 
         JavascriptWrapScanner.getInstance().getJsObjects().forEach((s, o) -> jsObject.setMember(s,o));
-
     }
-
-
 }

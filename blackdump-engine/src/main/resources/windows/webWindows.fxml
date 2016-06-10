@@ -16,8 +16,8 @@
       <AnchorPane BorderPane.alignment="CENTER">
          <children>
             <TextField fx:id="edtAddress" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="742.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="151.0" />
-            <Button fx:id="btnGo" layoutX="710.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="87.0" text="Go" AnchorPane.rightAnchor="61.0" />
-            <Button fx:id="btnAbort" layoutX="762.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="54.0" text="Abort" AnchorPane.rightAnchor="7.0" />
+            <Button fx:id="btnGo" layoutX="710.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="68.0" text="Go" AnchorPane.rightAnchor="80.0" />
+            <Button fx:id="btnAbort" layoutX="762.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="71.0" text="Abort" AnchorPane.rightAnchor="7.0" />
          </children>
       </AnchorPane>
    </top>
