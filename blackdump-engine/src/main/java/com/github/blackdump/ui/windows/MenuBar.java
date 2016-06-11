@@ -151,6 +151,8 @@ public class MenuBar extends BaseDesktopWidget implements IWindowListener {
             for (int i = 0; i < pos.length; i++) {
                 String mt = pos[i];
 
+
+
                 if (i == 0) {
                     if (!mnuPrograms.getItems().stream().filter(s -> s.getText().equals(mt)).findFirst().isPresent()) {
 

@@ -3,19 +3,16 @@ apply plugin: 'idea'
 
 //Definizione delle versioni delle librerie
 project.ext {
-    lombokVersion = '1.16.6'
+    lombokVersion = '1.16.8'
     commonsIoVersion = '2.4'
     log4jVersion = '2.4.1'
     gsonVersion = '2.4'
     reflectionsVersion = '0.9.10'
-    rxVersion = '1.0.14'
+    rxVersion = '1.1.5'
     jclVersion = '2.6'
     richtextfxVersion = '0.6.10'
-    controlsFxVersion = '8.40.9'
-    springVersion = '4.1.7.RELEASE'
+    controlsFxVersion = '8.40.10'
     webSocketClientVersion = '1.1'
-    stompClientVersion  ='1.19'
-
 }
 
 
@@ -74,15 +71,13 @@ project(':blackdump-network')
                 compile project(':blackdump-api')
                 compile "javax.websocket:javax.websocket-client-api:$webSocketClientVersion"
                 compile "javax.websocket:javax.websocket-api:$webSocketClientVersion"
-                compile "org.fusesource.stompjms:stompjms-client:$stompClientVersion"
             }
         }
 
-project(':blackdump-webserver')
+project(':blackdump-server')
         {
             dependencies {
                 compile project(':blackdump-api')
                 compile project(':blackdump-network')
-                compile ("org.springframework.boot:spring-boot-starter-web:1.2.7.RELEASE")
             }
         }

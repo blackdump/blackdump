@@ -64,9 +64,6 @@ public interface IBlackdumpEngine {
     IShellManager getShellManager();
 
 
-
-
-
     /**
      * Esce dall'applicazione, se e' impostato il force a TRUE, chiude tutto subito
      * @param force

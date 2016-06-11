@@ -3,6 +3,10 @@ package com.github.blackdump.interfaces.managers;
 import com.github.blackdump.data.ui.WidgetBuiltData;
 import com.github.blackdump.interfaces.windows.IWindowListener;
 import javafx.scene.Node;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+
+import java.util.List;
 
 /**
  * Interfaccia per il creatore della UI
@@ -41,5 +45,8 @@ public interface IUiManager {
     void addDesktopChildren(Node object);
 
     void removeDesktopChildren(Node node);
+
+    List<WebEngine> getBrowserList();
+
 
 }
