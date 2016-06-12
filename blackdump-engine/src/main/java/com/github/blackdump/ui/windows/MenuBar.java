@@ -16,13 +16,11 @@ import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
+import org.apache.log4j.Level;
 
 import java.util.List;
 import java.util.Optional;
@@ -70,13 +68,13 @@ public class MenuBar extends BaseDesktopWidget implements IWindowListener {
             public void run() {
                 Platform.runLater(() -> lblClock.setText(FuncsUtility.getCurrentDateTime()));
             }
-        },1000, 1000 );
+        }, 1000, 1000);
 
 
         btnShutdown.setOnAction(event -> {
             WidgetBuiltData data = getEngine().getUiManager().buildWidget("confirmdialog");
 
-            ConfirmDialogWidget controller = (ConfirmDialogWidget)data.getWidgetController();
+            ConfirmDialogWidget controller = (ConfirmDialogWidget) data.getWidgetController();
 
             controller.showConfirm("//" + AppInfo.AppName, "Are you sure to exit?", DialogTypeEnum.INFO, new IConfirmDialogListener() {
                 @Override
@@ -129,14 +127,31 @@ public class MenuBar extends BaseDesktopWidget implements IWindowListener {
     public void onWindowClosed(IBDWindow window) {
 
         try {
-            Optional<Node> btn = pnlWindowsList.getChildren().stream().filter(s -> s.getId().equals(Long.toString(window.getWindowUid()))).findFirst();
+            //Optional<Node> btn = pnlWindowsList.getChildren().stream().filter(s -> s.getId().equals(Long.toString(window.getWindowUid()))).findFirst();
 
-            if (btn.isPresent()) {
-                pnlWindowsList.getChildren().remove(btn.get());
+
+            Node btn = null;
+
+            for (Node node : pnlWindowsList.getChildren()) {
+                if (node instanceof Button) {
+                    if (node.getId().equals(Long.toString(window.getWindowUid()))) {
+                        btn = node;
+                    }
+                }
             }
-        }
-        catch (Exception ex)
-        {
+
+            if (btn != null) {
+                FadeTransition ft = new FadeTransition(Duration.millis(300), btn);
+                ft.setFromValue(1.0);
+                ft.setToValue(0.0);
+                ft.play();
+                Node finalBtn = btn;
+                ft.setOnFinished(event -> { pnlWindowsList.getChildren().remove(finalBtn);});
+
+            }
+
+        } catch (Exception ex) {
+            log(Level.FATAL, "Error during close window %s ==> %s", window.getWindowUid(), ex.getMessage());
 
         }
     }
@@ -150,7 +165,6 @@ public class MenuBar extends BaseDesktopWidget implements IWindowListener {
 
             for (int i = 0; i < pos.length; i++) {
                 String mt = pos[i];
-
 
 
                 if (i == 0) {

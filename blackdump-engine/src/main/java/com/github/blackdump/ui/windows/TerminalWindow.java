@@ -95,6 +95,7 @@ public class TerminalWindow extends BaseWindow {
                         line = line.replace(token, "");
                         line += "\n";
                         token = token.replace("[#","").replace("]","").toLowerCase();
+
                         txtConsole.appendText(line);
                         txtConsole.setStyleClass(max_position, max_position + line.length(), "shell-output-text-"+token);
                         max_position += line.length();
@@ -114,6 +115,9 @@ public class TerminalWindow extends BaseWindow {
             }
         });
     }
+
+
+
 
 
 }
