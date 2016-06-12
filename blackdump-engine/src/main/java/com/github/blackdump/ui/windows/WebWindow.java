@@ -3,8 +3,12 @@ package com.github.blackdump.ui.windows;
 import com.github.blackdump.annotations.ABDMenuItem;
 import com.github.blackdump.annotations.WindowType;
 import com.github.blackdump.base.BaseWindow;
+import com.github.blackdump.data.ui.WidgetBuiltData;
 import com.github.blackdump.eventbus.EventBusMessages;
 import com.github.blackdump.eventbus.ObservableVariablesManager;
+import com.github.blackdump.interfaces.windows.dialogs.DialogTypeEnum;
+import com.github.blackdump.ui.widgets.MessageDialogWidget;
+import com.github.blackdump.utils.AppInfo;
 import com.github.blackdump.utils.JavascriptWrapScanner;
 import javafx.application.Platform;
 import javafx.concurrent.Worker;
@@ -13,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebEvent;
 import javafx.scene.web.WebView;
 
 import netscape.javascript.JSObject;
@@ -46,6 +51,9 @@ public class WebWindow extends BaseWindow {
 
         try {
             webEngine = webBrowser.getEngine();
+            webEngine.setOnAlert(this::wrapAlert);
+            webEngine.setUserAgent(AppInfo.AppName);
+            webBrowser.setStyle("");
             webEngine.getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) ->
             {
                 if (newValue == Worker.State.SUCCEEDED)
@@ -54,6 +62,7 @@ public class WebWindow extends BaseWindow {
                 }
             });
             prgBrowser.progressProperty().bind(webEngine.getLoadWorker().progressProperty());
+
 
             initJavascriptBridge();
 
@@ -73,6 +82,18 @@ public class WebWindow extends BaseWindow {
         {
             log(Level.FATAL, "Error during creating web browser => %s", ex.getMessage() );
         }
+    }
+
+    private void wrapAlert(WebEvent<String> event)
+    {
+        WidgetBuiltData data =  getEngine().getUiManager().buildWidget("messagedialog");
+
+        MessageDialogWidget prgProgressDialogWidget = (MessageDialogWidget)data.getWidgetController();
+
+       prgProgressDialogWidget.center();
+
+        getEngine().getUiManager().addDesktopChildren(data.getWidgetPane());
+        prgProgressDialogWidget.show("// Blackdump",event.getData(), DialogTypeEnum.WARNING, () -> data.getWidgetPane().setVisible(false));
     }
 
     private void initJavascriptBridge()

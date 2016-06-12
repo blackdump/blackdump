@@ -32,7 +32,6 @@ public class HudWidget extends BaseDesktopWidget {
         getEngine().subscribeEvent(EventBusMessages.PLAYER_PROPERTY_CHANGE, this::onPlayerPropertyChange);
         getEngine().subscribeEvent(EventBusMessages.CURRENT_USER_OBJECT_SEND, this::onCurrentPlayerBroadcast);
 
-
     }
 
     private void onPlayerPropertyChange(Object data)

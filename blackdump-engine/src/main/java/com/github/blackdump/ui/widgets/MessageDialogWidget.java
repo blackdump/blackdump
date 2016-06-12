@@ -38,6 +38,7 @@ public class MessageDialogWidget extends BaseDesktopWidget {
         imgDialog.setImage(getImageByDialogType(type));
         this.listener  = listener;
 
+
         btnOK.setOnAction(event -> listener.onOK());
 
     }
