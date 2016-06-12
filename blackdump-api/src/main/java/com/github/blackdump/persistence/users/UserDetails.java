@@ -11,5 +11,6 @@ import java.io.Serializable;
 public class UserDetails implements Serializable {
 
     private double currentMoney = 100;
+    private int rank;
 
 }

@@ -248,6 +248,8 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
         for (IWindowListener listener : mListeners) {
             listener.onBuildMenuTree(afterLoginMenuItems);
         }
+
+        engine.broadcastEvent(EventBusMessages.CURRENT_USER_OBJECT_REQUEST,null);
     }
 
     private void scanForWidgets()

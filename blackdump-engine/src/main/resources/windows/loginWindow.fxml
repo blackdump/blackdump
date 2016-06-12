@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="bpLogin" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="408.0" prefWidth="714.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.blackdump.ui.windows.LoginWindow">
+<BorderPane fx:id="bpLogin" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="408.0" prefWidth="714.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.blackdump.ui.windows.LoginWindow">
    <top>
       <TextArea fx:id="txtHeader" editable="false" prefHeight="244.0" prefWidth="714.0" styleClass="txtHeader" text="test" BorderPane.alignment="CENTER" />
    </top>
@@ -19,8 +24,8 @@
                   <TextField fx:id="edtUsername" layoutX="14.0" layoutY="25.0" prefHeight="26.0" prefWidth="177.0" styleClass="edtDefault" />
                   <Label layoutX="13.0" layoutY="53.0" prefHeight="12.0" prefWidth="151.0" styleClass="lblDefault" text="Password:" />
                   <PasswordField fx:id="edtPassword" layoutX="14.0" layoutY="69.0" prefHeight="26.0" prefWidth="176.0" styleClass="edtDefault" />
-                  <Button fx:id="btnLogin" layoutX="205.0" layoutY="25.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="90.0" styleClass="btnDefault" text="Login" />
-                  <Button fx:id="btnCreatenew" layoutX="205.0" layoutY="69.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="92.0" styleClass="btnDefault" text="Create new" />
+                  <Button fx:id="btnLogin" layoutX="205.0" layoutY="25.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="102.0" styleClass="btnDefault" text="Login" />
+                  <Button fx:id="btnCreatenew" layoutX="205.0" layoutY="69.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="102.0" styleClass="btnDefault" text="Create new" />
                </children>
             </Pane>
             <Text fx:id="lblVersion" layoutX="14.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lblDefault" text="//Version" />

@@ -8,6 +8,7 @@ import com.github.blackdump.interfaces.managers.IBlackdumpManager;
 import com.github.blackdump.interfaces.managers.IShellManager;
 import com.github.blackdump.interfaces.managers.IUiManager;
 import com.github.blackdump.interfaces.persistence.IBDDatabaseManager;
+import com.github.blackdump.interfaces.wrap.IPlayerManager;
 import com.github.blackdump.serializer.JsonSerializer;
 import com.github.blackdump.session.SessionManager;
 import com.github.blackdump.utils.JavascriptWrapScanner;
@@ -50,6 +51,9 @@ public class BlackdumpEngine implements IBlackdumpEngine {
 
     @Getter
     private IUiManager uiManager;
+
+    @Getter
+    private IPlayerManager playerManager;
 
     @Getter
     private IShellManager shellManager;
@@ -222,6 +226,14 @@ public class BlackdumpEngine implements IBlackdumpEngine {
 
             if (shellManager == null) {
                 log(Level.FATAL, "FATAL ERROR! ShellManager is null!");
+                quit(true);
+            }
+
+
+            playerManager = getManagerByClass(IPlayerManager.class);
+
+            if (playerManager == null) {
+                log(Level.FATAL, "FATAL ERROR! PlayerManager is null!");
                 quit(true);
             }
 

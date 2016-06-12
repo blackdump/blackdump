@@ -5,6 +5,7 @@ import com.github.blackdump.interfaces.managers.IBlackdumpManager;
 import com.github.blackdump.interfaces.managers.IShellManager;
 import com.github.blackdump.interfaces.managers.IUiManager;
 import com.github.blackdump.interfaces.persistence.IBDDatabaseManager;
+import com.github.blackdump.interfaces.wrap.IPlayerManager;
 import rx.functions.Action1;
 
 import java.lang.reflect.Type;
@@ -62,6 +63,8 @@ public interface IBlackdumpEngine {
     IUiManager getUiManager();
 
     IShellManager getShellManager();
+
+    IPlayerManager getPlayerManager();
 
 
     /**

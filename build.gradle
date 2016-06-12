@@ -13,6 +13,7 @@ project.ext {
     richtextfxVersion = '0.6.10'
     controlsFxVersion = '8.40.10'
     webSocketClientVersion = '1.1'
+    springVersion = '4.3.0.RELEASE'
 }
 
 
@@ -79,5 +80,10 @@ project(':blackdump-server')
             dependencies {
                 compile project(':blackdump-api')
                 compile project(':blackdump-network')
+                // http://mvnrepository.com/artifact/org.fusesource.stompjms/stompjms-client
+                compile group: 'org.fusesource.stompjms', name: 'stompjms-client', version: '1.19'
+                compile group: 'org.fusesource.hawtbuf', name: 'hawtbuf', version: '1.11'
+
             }
         }
+

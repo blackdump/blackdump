@@ -195,6 +195,9 @@ public class LoginWindow extends BaseWindow {
             Platform.runLater(() -> txtHeader.appendText("Username or password invalid!\n"));
         } else {
             SessionManager.setCurrentUser(mUser.get());
+
+            getEngine().getPlayerManager().setCurrentUser(mUser.get());
+
             getEngine().getUiManager().notifyAfterLogin();
             getEngine().getUiManager().createWindow(String.format("%s:", SessionManager.getCurrentUser().getEmail()), "/windows/terminalWindow.fxml", true, true, true);
             getParentWindow().close();
