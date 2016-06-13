@@ -1,4 +1,6 @@
 @default-font-family: 'Hack';
+@default-timer-font: 'Gameplay';
+@default-timer-font-size: 20px;
 @default-font-size: 10px;
 @default-background-color: black;
 @default-foreground-color: #45D40C;
@@ -6,6 +8,10 @@
 
 @font-face {
   src: url('fonts/Hack-Regular.ttf');
+}
+
+@font-face {
+  src: url('fonts/Gameplay.ttf');
 }
 
 @font-face {
@@ -44,6 +50,10 @@
   -fx-text-fill: @default-foreground-color;
 }
 
+#timerLabel {
+  -fx-font-size: @default-timer-font-size;
+  -fx-font-family: @default-timer-font;
+}
 #txtHeader .content {
   -fx-background-color: @default-background-color;
 }

@@ -63,6 +63,31 @@ public class BaseDesktopWidget implements IBDDesktopWidget{
     }
 
     @Override
+    public void right()
+    {
+        myPane.setLayoutX(getEngine().getUiManager().getDesktopWidth()  - myPane.getPrefWidth());
+    }
+
+    @Override
+    public void left()
+    {
+        myPane.setLayoutX(myPane.getPrefWidth());
+    }
+
+    @Override
+    public void bottom()
+    {
+        myPane.setLayoutY(myPane.getPrefHeight() + 40);
+
+    }
+
+    @Override
+    public void top()
+    {
+        myPane.setLayoutY(getEngine().getUiManager().getDesktopHeight() - myPane.getPrefHeight() );
+    }
+
+    @Override
     public void addToDesktop() {
         if (myPane != null)
         {

@@ -17,6 +17,14 @@ public interface IBDDesktopWidget {
 
     void center();
 
+    void right();
+
+    void left();
+
+    void top();
+
+    void bottom();
+
     void addToDesktop();
 
     void removeFromDesktop();

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="146.0" prefWidth="458.0" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.blackdump.ui.widgets.TimerWidget">
+   <children>
+      <Label fx:id="lblTimer" alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" layoutY="14.0" prefHeight="87.0" prefWidth="439.0" styleClass="timerLabel" text="00:00:00.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="14.0" />
+      <Label fx:id="lblTimerInfo" alignment="CENTER" layoutX="12.0" layoutY="101.0" prefHeight="31.0" prefWidth="439.0" text="- None -" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="7.0" />
+   </children>
+</AnchorPane>
