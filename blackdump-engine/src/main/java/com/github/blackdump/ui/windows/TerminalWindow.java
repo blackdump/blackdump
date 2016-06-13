@@ -10,8 +10,11 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import org.fxmisc.richtext.StyleClassedTextArea;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -27,6 +30,9 @@ public class TerminalWindow extends BaseWindow {
     @FXML
     private Label lblPrompt;
 
+    private List<String> mHistory = new ArrayList<>();
+
+    private int currentHistoryIndex = 0;
 
     @FXML
     private StyleClassedTextArea txtConsole;
@@ -58,6 +64,32 @@ public class TerminalWindow extends BaseWindow {
         edtCommand.setOnAction(event ->
         {
             getEngine().getShellManager().parse(terminal, edtCommand.getText());
+            mHistory.add(edtCommand.getText());
+        });
+
+        edtCommand.setOnKeyPressed(event -> {
+
+            switch (event.getCode())
+            {
+                case DOWN:
+
+                    if (currentHistoryIndex < mHistory.size())
+                        currentHistoryIndex ++;
+
+
+                    edtCommand.setText(mHistory.get(currentHistoryIndex));
+                    break;
+                case UP:
+                    if (currentHistoryIndex == 0)
+                    {
+                        currentHistoryIndex = mHistory.size() - 1;
+                    }
+
+
+                    edtCommand.setText(mHistory.get(currentHistoryIndex));
+                    break;
+            }
+
         });
     }
 

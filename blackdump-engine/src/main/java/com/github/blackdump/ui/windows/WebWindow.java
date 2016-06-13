@@ -50,6 +50,7 @@ public class WebWindow extends BaseWindow {
     private void initialize() {
 
         try {
+            webBrowser.getStyleClass().clear();
             webEngine = webBrowser.getEngine();
             webEngine.setOnAlert(this::wrapAlert);
             webEngine.setUserAgent(AppInfo.AppName);
@@ -62,7 +63,6 @@ public class WebWindow extends BaseWindow {
                 }
             });
             prgBrowser.progressProperty().bind(webEngine.getLoadWorker().progressProperty());
-
 
             initJavascriptBridge();
 
