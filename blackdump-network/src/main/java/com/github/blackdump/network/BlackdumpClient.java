@@ -2,8 +2,10 @@ package com.github.blackdump.network;
 
 import com.github.blackdump.eventbus.EventBusMessages;
 import com.github.blackdump.eventbus.ObservableVariablesManager;
+import com.github.blackdump.network.data.AuthResponse;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.springframework.web.client.RestTemplate;
 
 
 /**
@@ -34,7 +36,11 @@ public class BlackdumpClient {
     public void connect()
     {
         try
+
         {
+           RestTemplate restTemplate = new RestTemplate();
+
+//            restTemplate.postForObject()
 
 
         }

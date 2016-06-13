@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: Blackdump Webserver
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgresql
+    password:
+    url: jdbc:postgres://localhost/bd_server_db
+server:
+  port: 8080

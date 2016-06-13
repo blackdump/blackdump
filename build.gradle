@@ -75,15 +75,13 @@ project(':blackdump-network')
             }
         }
 
-project(':blackdump-server')
+project(':blackdump-webserver')
         {
             dependencies {
-                compile project(':blackdump-api')
                 compile project(':blackdump-network')
-                // http://mvnrepository.com/artifact/org.fusesource.stompjms/stompjms-client
-                compile group: 'org.fusesource.stompjms', name: 'stompjms-client', version: '1.19'
-                compile group: 'org.fusesource.hawtbuf', name: 'hawtbuf', version: '1.11'
 
             }
         }
+
+
 

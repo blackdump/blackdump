@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: Blackdump Webserver (debug)
+  datasource:
+    driver-class-name: org.h2.Driver
+  jpa:
+    show-sql: true
+server:
+  port: 8080
