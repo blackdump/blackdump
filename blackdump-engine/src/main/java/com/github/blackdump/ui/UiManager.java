@@ -8,6 +8,7 @@ import com.github.blackdump.annotations.ABDDesktopWidget;
 import com.github.blackdump.annotations.ABDManager;
 import com.github.blackdump.annotations.ABDMenuItem;
 import com.github.blackdump.annotations.ABDPopmenuEntry;
+import com.github.blackdump.data.ui.NotificationUiData;
 import com.github.blackdump.data.ui.WidgetBuiltData;
 import com.github.blackdump.eventbus.EventBusMessages;
 import com.github.blackdump.eventbus.ObservableVariablesManager;
@@ -21,6 +22,7 @@ import com.github.blackdump.utils.AppInfo;
 import com.github.blackdump.utils.ReflectionUtils;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import eu.hansolo.enzo.notification.Notification;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -123,7 +125,9 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
 
             root.setStyle(backgroundStr);
 
-            ObservableVariablesManager.subscribe(EventBusMessages.NOTIFICATION_SHOW_MESSAGE, this::showNotification);
+            initNotificationManager();
+
+
             ObservableVariablesManager.subscribe(EventBusMessages.UI_MANAGER_BROWSER_ADD, this::onAddBrowser);
             ObservableVariablesManager.subscribe(EventBusMessages.UI_MANAGER_BROWSER_REMOVE, this::onCloseBrowser);
 
@@ -147,12 +151,6 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
         return root.getWidth();
     }
 
-    private void showNotification(Object o) {
-        Platform.runLater(() -> {
-            Notifications.create().title(AppInfo.AppName).text((String) o).showInformation();
-        });
-
-    }
 
     /**
      * Viene invocata al momento della creazione di un browser
@@ -465,6 +463,34 @@ public class UiManager extends Application implements IBlackdumpManager, IUiMana
 
         mGuiThread = new Thread(() -> launch(new String[] {}));
         mGuiThread.start();
+    }
+
+    private void initNotificationManager()
+    {
+        engine.subscribeEvent(EventBusMessages.NOTIFICATION_SHOW_MESSAGE, this::onNotificationReceived);
+
+    }
+
+    private void onNotificationReceived(Object data)
+    {
+        NotificationUiData notificationUiData = (NotificationUiData)data;
+
+        switch (notificationUiData.getType())
+        {
+            case ERROR:
+                Notification.Notifier.INSTANCE.notifyError(notificationUiData.getTitle(), notificationUiData.getText());
+                break;
+            case INFO:
+                Notification.Notifier.INSTANCE.notifyInfo(notificationUiData.getTitle(), notificationUiData.getText());
+                break;
+            case OK:
+                Notification.Notifier.INSTANCE.notifySuccess(notificationUiData.getTitle(), notificationUiData.getText());
+            case WARNING:
+                Notification.Notifier.INSTANCE.notifyWarning(notificationUiData.getTitle(), notificationUiData.getText());
+
+        }
+
+
     }
 
     private void initLessCompiler()
