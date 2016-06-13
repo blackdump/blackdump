@@ -6,6 +6,7 @@ import com.github.blackdump.data.ui.WidgetBuiltData;
 import com.github.blackdump.eventbus.EventBusMessages;
 import com.github.blackdump.eventbus.ObservableVariablesManager;
 import com.github.blackdump.interfaces.windows.dialogs.DialogTypeEnum;
+import com.github.blackdump.interfaces.windows.dialogs.ITimerWidgetListener;
 import com.github.blackdump.ui.widgets.InputStringDialogWidget;
 import com.github.blackdump.ui.widgets.TimerWidget;
 import com.github.blackdump.utils.AppInfo;
@@ -28,6 +29,27 @@ public class TestNofitication extends BaseShellCommand {
         prgProgressDialogWidget.left();
 
         getEngine().getUiManager().addDesktopChildren(data.getWidgetPane());
+
+        prgProgressDialogWidget.setListener(new ITimerWidgetListener() {
+            @Override
+            public void onTimerStart() {
+                getShellManager().parse("echo", "Terminal started");
+            }
+
+            @Override
+            public void onTimerHeartbeat(long seconds) {
+                getShellManager().parse("echo", "Terminal heartbeat");
+
+            }
+
+            @Override
+            public void onTimerExpire() {
+                getShellManager().parse("echo", "BOOM");
+
+            }
+        });
+
+        prgProgressDialogWidget.start(15, "Test");
         return "OK";
     }
 }

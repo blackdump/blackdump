@@ -1,6 +1,6 @@
 @default-font-family: 'Hack';
 @default-timer-font: 'Gameplay';
-@default-timer-font-size: 20px;
+@default-timer-font-size: 40px;
 @default-font-size: 10px;
 @default-background-color: black;
 @default-foreground-color: #45D40C;
@@ -50,10 +50,18 @@
   -fx-text-fill: @default-foreground-color;
 }
 
-#timerLabel {
+.timerLabel {
   -fx-font-size: @default-timer-font-size;
   -fx-font-family: @default-timer-font;
 }
+
+.timerLabel-alert {
+  -fx-font-size: @default-timer-font-size;
+  -fx-font-family: @default-timer-font;
+  -fx-text-fill: red;
+  -fx-background-color: @default-background-color;
+}
+
 #txtHeader .content {
   -fx-background-color: @default-background-color;
 }
